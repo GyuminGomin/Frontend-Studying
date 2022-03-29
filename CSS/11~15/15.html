@@ -1,0 +1,32 @@
+<!DOCTYPE html> <!-- html이 최신 문법으로 이루어진 것이다는 의미-->
+<html lang="en">
+    <head>
+        <meta charset = "utf-8">
+        <title>Trailblalzer Coding</title>
+        <style>
+            .container{
+                display: flex;
+                width: 300px; height: 300px;
+                border: 2px solid black;
+                flex-wrap: nowrap;
+                /* justify-content: flex-end;
+                align-items: flex-end; */
+            }
+            .item{
+                width: 120px; height: 60px; /* 컨테이너보다 커지면 줄여준다. */
+                background-color: teal;
+                border: 1px solid rebeccapurple;
+            }
+            .self{
+                /* align-self: flex-start; */ /* 개별요소하나하나 */
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="item">1</div>
+            <div class="item self">2</div>
+            <div class="item">3</div>
+        </div>
+    </body>
+</html> <!-- 여기까지가 세부적인 구성완성 -->

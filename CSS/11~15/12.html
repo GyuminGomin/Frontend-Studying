@@ -1,0 +1,31 @@
+<!DOCTYPE html> <!-- html이 최신 문법으로 이루어진 것이다는 의미-->
+<html lang="en">
+    <head>
+        <meta charset = "utf-8">
+        <title>Trailblalzer Coding</title>
+        <style>
+            div{
+                width: 200px; height: 200px;
+                background-color: red;
+                position:relative;
+                border: 1px solid black;
+                /* position:relative;
+                top: 100px; left: 100px; */
+            }
+            .abs{
+                width: 100px; height: 100px;
+                background-color: yellow;
+                position : absolute; /*문서의 흐름에서 제거된다.*/
+                top: 100px;
+            }
+        </style>
+    </head>
+    <body>
+        <div></div>
+        <div>
+            <div class="abs"></div>
+            <p>ppppp</p>
+        </div>
+        <p>pppppppppp</p>
+    </body>
+</html> <!-- 여기까지가 세부적인 구성완성 -->
