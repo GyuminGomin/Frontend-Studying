@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>간단한 계산기</title>
+</head>
+<body>
+    <h1>간단한 계산기</h1>
+
+    <input type="number" id="num1" placeholder="숫자 1">
+    <input type="number" id="num2" placeholder="숫자 2">
+
+    <br />
+
+    <button onclick="add()">더하기 (+)</button>
+    <button onclick="subtract()">빼기 (-)</button>
+    <button onclick="multiply()">곱하기 (*)</button>
+    <button onclick="divide()">나누기 (/)</button>
+
+    <br />
+
+    <h3 id="result"></h3>
+</body>
+<script>
+    function add() {
+        let num1 = parseFloat(document.getElementById('num1').value);
+        let num2 = parseFloat(document.getElementById('num2').value);
+        let result = num1 + num2;
+        document.getElementById('result').innerText = '결과: ' + result;
+    }
+    function subtract() {
+        let num1 = parseFloat(document.getElementById('num1').value);
+        let num2 = parseFloat(document.getElementById('num2').value);
+        let result = num1 - num2;
+        document.getElementById('result').innerText = '결과: ' + result;
+    }
+    function multiply() {
+        let num1 = parseFloat(document.getElementById('num1').value);
+        let num2 = parseFloat(document.getElementById('num2').value);
+        let result = num1 * num2;
+        document.getElementById('result').innerText = '결과: ' + result;
+    }
+    function divide() {
+        let num1 = parseFloat(document.getElementById('num1').value);
+        let num2 = parseFloat(document.getElementById('num2').value);
+        let result = num1 / num2;
+        document.getElementById('result').innerText = '결과: ' + result;
+    }
+</script>
+</html>
