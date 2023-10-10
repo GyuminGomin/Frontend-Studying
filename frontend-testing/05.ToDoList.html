@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>할일 목록</title>
+</head>
+<body>
+    <h1>할일 목록</h1>
+
+    <input type="text" id="taskinput" placeholder="할일을 입력하세요" />
+    <button onclick="addTask()">추가</button>
+
+    <ul id="taskList"></ul>
+</body>
+<script>
+    function addTask() {
+        let taskinput = document.getElementById('taskinput');
+        let taskList = document.getElementById('taskList');
+
+        let task = taskinput.value;
+
+        let listItem = document.createElement('li');
+        listItem.innerText = task;
+
+        let deleteButton = document.createElement('button');
+        deleteButton.innerText = '삭제';
+        deleteButton.onclick = function() {
+            listItem.remove();
+        };
+        listItem.appendChild(deleteButton);
+
+        taskList.appendChild(listItem);
+
+        taskinput.value = '';
+    }
+</script>
+</html>
