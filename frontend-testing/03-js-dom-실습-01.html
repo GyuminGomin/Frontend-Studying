@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js-dom 실습</title>
+</head>
+<body>
+    <button id="addButton">
+        Add a new div
+    </button>
+    <div id="container"></div>
+</body>
+
+<script>
+    const addButton = document.querySelector('#addButton');
+    const container = document.querySelector('#container');
+
+    addButton.addEventListener('click', function() {
+        const div = document.createElement('div');
+        const text = document.createTextNode('new div element');
+        div.appendChild(text);
+        container.appendChild(div);
+    })
+</script>
+</html>
