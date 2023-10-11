@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS비동기 처리</title>
+</head>
+<body>
+    <button id="ajaxButton">sendAjax</button>
+</body>
+<script>
+    const ajaxButton = document.querySelector('#ajaxButton');
+    ajaxButton.addEventListener('click', function() {
+        request('https://jsonplaceholder.typicode.com/posts', function(err, data) {
+            if (err) {
+                console.error('There was an error', err);
+                return;
+            }
+            console.log(data);
+        });
+    });
+    function request(url, callback) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onload = function() {
+            if (xhr.status == 200) {
+                callback(null, xhr.responseText);
+            } else {
+                callback(new Error("Request failed: " + xhr.status));
+            }
+        }
+        xhr.send();
+    }
+</script>
+</html>
