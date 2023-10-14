@@ -1,6 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
 import ButtonExample from './ButtonExample';
+import SwitchExample from './SwitchExample';
+import RadioExample from './RadioExample';
+import TextFieldExample from './TextFieldExample';
 import { Container, Grid } from '@mui/material';
 
 function App() {
@@ -9,7 +12,16 @@ function App() {
       <Container sx={{p:5}} maxWidth="lg">
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <ButtonExample></ButtonExample>
+            <ButtonExample/>
+          </Grid>
+          <Grid item xs={12}>
+            <SwitchExample/>
+          </Grid>
+          <Grid item xs={12}>
+            <RadioExample/>
+          </Grid>
+          <Grid item xs={12}>
+            <TextFieldExample/>
           </Grid>
         </Grid>
       </Container>
