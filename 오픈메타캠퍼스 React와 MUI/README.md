@@ -15,4 +15,13 @@ create-react-app 이라는 패키지 다운
 > 
 ```
 
-## 
+## Redux 패키지 설치
+```
+> npm install --save redux
+> npm install --save react-redux
+```
+
+## Recoil 패키지 설치
+```
+> npm install --save recoil
+```

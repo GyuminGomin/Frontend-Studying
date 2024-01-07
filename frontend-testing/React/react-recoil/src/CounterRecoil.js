@@ -1,6 +1,6 @@
-import React from 'react';
-import { useRecoilState } from 'recoil';
-import { counterState } from './atoms';
+import React from 'react'; // 컴포넌트
+import { useRecoilState } from 'recoil'; // State를 쓰기 위해
+import { counterState } from './atoms'; // 사용할 원자
 
 const CounterRecoil = () => {
     const [count, setCount] = useRecoilState(counterState);
