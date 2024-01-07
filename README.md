@@ -6,6 +6,8 @@
 <a href="#reactjs_소개_및_개발_환경_설정">React.js 소개 및 개발 환경 설정</a>  
 <a href="#reactjs_컴포넌트_작성_및_구조화">React.js 컴포넌트 작성 및 구조화</a>  
 <a href="#reactjs_상태_관리_state-props">React.js 상태 관리 (state,props)</a>  
+<a href="#reactjs_이벤트_처리_및_폼_관리">React.js 이벤트 처리 및 폼 관리</a>  
+
 
 
 --- 
@@ -388,5 +390,298 @@ function MyComponent() {
     - Parent Component는 Child Component에게 props를 통해 데이터를 전달
     - 자식 컴포넌트에서는 이 props를 읽기 전용으로 사용
     - props는 컴포넌트가 받는 입력값이며, 이 값은 컴포넌트 내에서는 변경될 수 없음
-    
+    ``` js
+    // 클래스 컴포넌트에서의 속성
+    class Welcome extends React.Component {
+        render() {
+            return <h1>Hello, {this.props.name}</h1>;
+        }
+    }
 
+    class App extends React.Component { // 상위 이므로, name이라는 props가 필요함
+        render() {
+            return <Welcome name="Sara"/>; // 컴포넌트도 태그로 사용 가능
+        }
+    }
+
+    ReactDOM.render(
+        <App />,
+        document.getElementById('root')
+    );
+
+    // 함수형 컴포넌트에서의 속성
+    function Welcome(props) {
+        return <h1>Hello, {props.name}</h1>;
+    }
+
+    function App() {
+        return <Welcome name="Sara" />;
+    }
+
+    ReactDOM.render(
+        <APP />,
+        document.getElementById('root')
+    );
+    ```
+- 상태 끌어올리기
+    - 상태 끌어올리기는 여러 컴포넌트가 동일한 객체를 공유할 필요가 있을 때 사용하는 패턴
+    - 상태를 최상위 공통 조상 컴포넌트에 위치시키고, 하위 컴포넌트에게 props를 통해 데이터를 전달
+    - 여러 컴포넌트가 동일한 상태를 사용하고 변경할 수 있음
+
+- 상태 끌어올리기 예제
+``` js
+import React, { useState } from 'react';
+
+// 자식 컴포넌트
+const ChildComponent = ({ value, onIncrement }) => {
+    return (
+        <div>
+            <p>Child Component</p>
+            <p>Value : {value}</p>
+            <button onClick={onIncrement}>Increment</button>
+        </div>
+    );
+}
+
+// 부모 컴포넌트
+const ParentComponent = () => {
+    const [count, setCount] = useState(0);
+
+    const handleIncrement = () => {
+        setCount(count + 1);
+    };
+
+    return (
+        <div>
+            <p>Parent Component</p>
+            <ChildComponent value={count} onIncrement={handleIncrement} />
+        </div>
+    );
+}
+
+// 최상위 컴포넌트
+const App = () => {
+    return (
+        <div>
+            <h1>State Lifting Example</h1>
+            <ParentComponent />
+        </div>
+    );
+};
+
+export default App;
+```
+
+### React.js 상태관리 라이브러리
+1. Redux
+2. Recoil
+
+```
+구분            |Redux           |Recoil
+상태관리방식     |중앙 집중식       | 분산형
+구조             |단일 store      |여러 개의 atom과 selector
+학습곡선         |비교적높음       |비교적 낮음
+중간상태관리     |미들웨어통해가능  |기본적으로 제공하지 않음
+비동기로직       |추가라이브러리필요|비동기 로직 기본적 지원
+최적화           |수동으로 최적화  |기본적으로 구독 기반의 최적화
+커뮤니티         |매우큰 커뮤      |페이스북(메타)내부에서 사용
+```
+
+참고 : redux
+<img src="./README_img/redux예제.png" width=300 />
+
+- Action 생성
+    - 애플리케이션에서 어떤 일이 일어났는지 설명하는 평범한 js 객체
+    - Action은 보통 'type'필드를 가지고 있으며 이는 action의 유형을 나타냄
+    - 그 외에도 추가적인 필드를 가질 수 있음
+- Action Dispatch
+    - Action이 생성되면, 이를 Redux Store로 전달하기 위해 dispatch 함수를 사용
+- Reducers
+    - Reducer는 action과 이전 상태를 받아 새로운 상태를 생성하는 순수 함수
+    - 앱의 상태 구조를 결정하고, 주어진 action에 대해 상태가 어떻게 업데이트 되는지를 정의
+- Store
+    - Redux 앱의 상태는 단일 js 객체로 저장되며, 이는 Redux Store에 존재
+    - Store는 앱의 상태를 저장하고, dispatch를 통해 action을 받아 reducer에게 전달
+- View 업데이트
+    - Redux Store의 상태가 업데이트되면, 상태 변화를 반영하기 위해 UI(View)가 리렌더링 실행
+    - 이를 통해 사용자는 항상 최신 상태 볼 수 있음
+
+참고:recoil (출처 : https://recoiljs.org/)
+<img src="./README_img/recoil예제.png" width=300 />
+
+- Atom
+    - Recoil의 상태 단위
+    - Atom은 수정 가능하고 구독 가능한 사태 조각
+    - Atom은 고유한 key와 default 값을 가짐
+- Selector
+    - Selector는 순수 함수로, atom 또는 다른 selector의 상태를 기반으로 계산된 상태를 제공
+    - Selector는 캐시된 값을 제공하기 때문에, 동일한 인자로 여러 번 호출되더라도 성능 저하 없이 동일한 결과를 제공할 수 있음
+- Component에서 Atom/Selector 사용
+    - React 컴포넌트에선 useRecoilState, useRecoilValue 등의 Recoil Hook을 통해 atom 또는 selector의 값을 읽거나 수정할 수 있음
+- Atom 업데이트
+    - 해당 atom을 구독하는 모든 컴포넌트가 리렌더링 됨
+    - 이는 Redux에서의 store 업데이트와 유사한 개념
+- Selector 업데이트
+    - Selector는 atom 또는 다른 selector에 의존하는 계산된 상태
+    - 따라서 의존하는 atom 또는 selector의 값이 변경되면, 해당 selector의 값을 사용하는 컴포넌트가 리렌더링 됨
+
+---
+# Reactjs_이벤트_처리_및_폼_관리
+
+### 이벤트 처리 및 폼 관리
+- 이벤트 처리의 일반적인 방법
+    - 웹에서는 특정 요소에 대한 사용자의 동작을 감지하기 위해 이벤트 리스너를 사용
+    - 버튼 클릭, 마우스 움직임, 키보드 입력 등 다양한 이벤트가 있음
+- React에서의 이벤트 처리
+    - React에서는 이벤트 처리 방법이 DOM의 이벤트 처리 방법과 유사
+    - js를 통해 간단하게 이벤트를 처리할 수 있음
+
+- 이벤트 처리 예제
+``` js
+class Toggle extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {isToggleOn: true};
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick() {
+        this.setState(prevState => ({
+            isToggleOn: !prevState.isToggleOn
+        }));
+    }
+
+    render() {
+        return (
+            <button onClick={this.handleClick}>
+                {this.state.isToggleOn ? 'ON' : 'OFF'}
+            </button>
+        );
+    }
+}
+
+ReactDOM.render (
+    <Toggle />,
+    document.getElementById('root')
+)
+```
+
+### 이벤트 핸들링 주요 특성
+- 이벤트 핸들러(Event Handlers)
+    - React에서 이벤트 핸들러는 자바스크립트를 사용해 정의
+    - 이벤트 핸들러는 camelCase 표기법으로 작성
+    - 예를 들어, 클릭 이벤트 핸들러는 'onClick'이라고 작성
+- 이벤트 종류(Event Type)
+    - React에서 지원하는 이벤트 종류는 W3C 스펙을 따르기 때문에, HTML에서 사용되는 이벤트 이름과 동일
+    - 하지만, React는 모든 이벤트를 camelCase 표기법으로 작성
+- 이벤트 인자(Event Arguments)
+    - React의 이벤트 핸들러는 SyntheticEvent라는 객체를 인자로 받음
+    - SyntheticEvent는 브라우저의 native event와 인터페이스가 유사하며, 브라우저 간 일관된 이벤트를 제공
+- 이벤트 위임(Event Delegation)
+    - React는 이벤트 위임을 사용하여 모든 이벤트를 문서 루트에서 처리
+    - 이는 이벤트 핸들러를 필요한 컴포넌트에 바인딩하는 대신, 한 곳에서 모든 이벤트를 중앙 집중적으로 관리하게 해줌
+    - 이를 통해 메모리 사용량을 줄이고 성능을 향상시킬 수 있음
+- 자동 바인딩(Auto Binding)
+    - 기존 JavaScript에서는 이벤트 핸들러 내에서 this가 예상치 않게 바인딩 될 수 있음
+    - 하지만, React 컴포넌트 클래스에서는 메소드가 기본적으로 인스턴스에 바인딩되지 않음
+    - 이를 해결하기 위해 클래스 메소드르 constructor에서 바인딩하거나, 클래스 필드 문법(class field syntax)를 사용하여 메소드를 화살표 함수로 정의
+- 이벤트 핸들러 내에서 비동기 접근
+    - React의 이벤트 객체는 이벤트 콜백이 끝나면 nullified되어 접근이 불가능해짐
+    - 이벤트 속성을 비동기적으로 참조하려면, event.persist()를 호출하여 SyntheticEvent를 통한 비동기 접근을 허용해야 함
+
+### Controller Components
+- Controlled Components 개요
+    - form 필드 (ex. input, textarea, select 등)의 상태를 React의 state를 통해 관리하는 것
+    - 이 패턴에서는, form 필드의 값은 항상 React 컴포넌트의 state에 연결되어 있으며, 사용자의 입력은 state를 업데이트하는 이벤트 핸들러를 통해 처리
+    - React에서 폼은 직접적으로 폼의 상태를 제어하는 역할을 하며, 사용자의 입력에 대한 반응으로 이 상태를 업데이트 함
+    - 이를 통해 사용자의 입력을 유효성 검사하거나, 사용자가 폼을 제출하려고 할 때 사용자를 막거나, 입력된 값을 변형하는 등의 동작을 수행할 수 있음
+
+- Controlled Components 기본 구조
+    - Triggers onChange event는 사용자의 상호작용, 예를 들어 텍스트 입력, 선택 등으로 인해 폼 요소에서 발생하는 행동을 나타냄
+    - 이 행동은 사용자에게서 직접적으로 발생하기 때문에, 다이어그램 상에서는 별도의 도형으로 표현되지 않음
+    - SSOT : (Single Source of Truth) 모든 데이터가 한 곳에서 유일하게 관리되는 원칙
+    - React 상태(state)
+        - React 컴포넌트에서 생성자나 state 초기화를 통해 상태를 초기화(form 필드의 초기 값을 설정)
+    - 폼 요소(form element)
+        - form 필드의 value 속성을 컴포넌트의 상태에 연결하고, onChange 이벤트 핸들러를 추가
+        - 사용자가 form 필드에서 입력하거나 선택하는 것이 상태 업데이트를 트리거
+    - 이벤트 핸들러(event handler)
+        - 사용자가 form 필드에서 어떤 작업을 수행하면 해당 이벤트를 처리
+        - 이벤트 객체를 인자로 받아, 그 객체의 target.value를 사용하여 컴포넌트의 상태를 업데이트
+
+### 폼 핸들링 절차
+- 폼 핸들링 흐름도
+    - 사용자 입력시 상태를 연결 및 업데이트하여 이벤트 핸들러를 통해 이벤트 수신 및 상태 업데이트르 수행
+    <img src="./README_img/formhandle.png">
+
+- 초기 상태 설정
+    - React 컴포넌트의 state를 초기화
+    - 초기 상태는 일반적으로 폼 요소의 초기 값을 설정하는 데 사용
+    - 예를 들어, 텍스트 입력 필드의 초기 값이 빈 문자열이라면, 초기 상태는 {value:"}로 설정
+    ``` js
+    class MyForm extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = { value: ''};
+        }
+        // ...
+    }
+    ```
+- 이벤트 핸들러 작성
+    - 사용자가 폼 요소에서 어떤 작업을 수행하면(ex: 텍스트 입력, 체크박스 선택 등), 해당 이벤트를 처리할 이벤트 핸들러를 작성
+    - 이벤트 핸들러는 이벤트 객체를 인자로 받아, 그 객체의 target.value를 사용하여 컴포넌트의 상태를 업데이트
+    ``` js
+    handleChange = (event) => {
+        this.setState({ value: event.target.value });
+    };
+    ```
+- 폼 필드에 state 연결
+    - 핸들러와 state를 폼 필드에 연결
+    - 폼 필드의 value는 state에 저장된 값을 반영하며, 사용자의 입력에 응답하여 onChange 핸들러를 호출
+    ``` js
+    <input type="text" value={this.state.value} onChange={this.handleChange} />
+    ```
+- 폼 제출 및 유효성 검사
+    - 폼 제출 처리
+        - 폼의 onSubmit 이벤트를 핸들링하는 메서드를 작성
+        - 이 메서드는 폼이 제출될 때 호출되며, 기본 폼 제출 이벤트를 방지하고, 대신 state에 저장된 폼 데이터를 사용하여 원하는 동작을 수행
+        ``` js
+        handleSubmit = (event) => {
+            event.preventDefault();
+            console.log('Form submitted: ' + this.state.value);
+        };
+        ```
+    - 유효성 검사란?
+        - 유효성검사를 통해 사용자가 입력한 데이터가 올바른 형식인지 확인
+        - 필요한 경우 사용자에게 유효하지 않은 입력에 대해 피드백을 제공
+        ``` js
+        validateEmail(email) {
+            // 간단한 이메일 유효성 검사
+            const re =  /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
+            return re.test(email);
+        }
+
+        handleSubmit(event) {
+            event.preventDefault();
+            if (!this.validateEmail(this.state.email)) {
+                alert('Invalid email address');
+                return;
+            }
+            // 유효성 검사를 통과한 경우, 폼 제출 처리
+            // ...
+        }
+        ```
+
+---
+
+React.js 상태 관리 및 이벤트 처리 실습
+
+---
+
+# 백엔드와 프론트엔드 연결
+```
+백엔드 프로그램으로 설정을 완료 한 뒤,
+create-react-app front 로 node.js로 프로젝트 생성
+
+
+```
