@@ -7,6 +7,7 @@
 <a href="#reactjs_컴포넌트_작성_및_구조화">React.js 컴포넌트 작성 및 구조화</a>  
 <a href="#reactjs_상태_관리_state-props">React.js 상태 관리 (state,props)</a>  
 <a href="#reactjs_이벤트_처리_및_폼_관리">React.js 이벤트 처리 및 폼 관리</a>  
+<a href="#reactjs_컨텍스트_api">React.js 컨텍스트 API</a>  
 
 
 
@@ -674,9 +675,22 @@ ReactDOM.render (
         ```
 
 ---
+# Reactjs_컨텍스트_API
+### 컨텍스트 API
+- 컨텍스트 API 개요
+    - React의 Context API는 컴포넌트 트리 전체에 걸쳐 데이터를 공유하는 데 사용되는 기능
+    - 전역적으로 사용할 수 있는 데이터, 예를 들어 현재 로그인한 사용자의 정보, 테마 설정, 선호 언어 등을 관리하는 데 유용
+    - 컴포넌트 간의 데이터 전달이 복잡해질 수 있는 문제를 Context API로 해결할 수 있음
+    - 중간에 위치한 컴포넌트들이 데이터를 처리하지 않고도, 트리의 깊은 곳에 위치하 컴포넌트들이 필요한 데이터에 접근할 수 있으며, 이를 'props drilling' 문제 해결이라고도 함
+    - Context API를 사용하면 전역적인 상태를 관리할 수 있으며, Provider와 Consumer 컴포넌트를 이용해 데이터를 전달 가능
+    - Context API를 사용하면 데이터 전달 과정을 간편하게 처리할 수 있고, 코드의 가독성과 유지보수성을 높일 수 있음
+    - 또한 Redux와 같은 상태 관리 라이브러리를 대체할 수도 있음
+    - Context API는 React.js에서 권장되는 패턴 중 하나이며, 프로젝트의 상황과 복잡도에 따라 사용 여부를 결정할 수 있음
 
-
-
+### 컨텍스트 API 주요 개념
+- React.createContext
+    - Context 객체를 생성하며, 이 메서드는 기본값을 인자로 받을 수 있음
+    2분43초
 ---
 
 # 백엔드와 프론트엔드 연결
