@@ -690,7 +690,159 @@ ReactDOM.render (
 ### 컨텍스트 API 주요 개념
 - React.createContext
     - Context 객체를 생성하며, 이 메서드는 기본값을 인자로 받을 수 있음
-    2분43초
+- Context.Provider
+    - Context 값을 제공하는 컴포넌트이며, 모든 하위 컴포넌트들은 이 Provider의 값을 사용 가능함
+    - 이 컴포넌트는 context를 생성하고, 그 context를 자식 컴포넌트들에게 제공하는 역할
+- Context.Consumer
+    - Context의 값을 소비하는 컴포넌트이며, 이 컴포넌트를 사용하면 가장 가까운 Provider의 값을 읽을 수 있음
+    - Providet로부터 받은 context를 통해 그 값을 이용할 수 있음
+- useContext Hook
+    - 함수 컴포넌트에서 Context를 더 쉽게 사용할 수 있게 해주며, 클래스 컴포넌트에서는 contextType을 사용하여 Context를 사용할 수 있음
+- React Hook 이란?
+    - 함수형 컴포넌트에서 상태(state)와 다른 리액트 기능을 사용할 수 있도록 도와줌
+    - 이전에는 클래스 컴포넌트에서만 상태를 관리하고 라이프사이클 메서드를 사용할 수 있었으나, Hook을 사용하면 함수형 컴포넌트에서도 상태 관리와 라이프사이클과 관련된 작업을 할 수 있음
+    - 주요한 React Hook은 useState, useEffect, useContext, useReducer 등이 있음
+    - React Hook의 장점은 코드를 간결하게 작성하고 상태 관리를 편리하게 할 수 있다는 점
+    - Hook은 함수 컴포넌트 내에서 상태를 관리하고 부작용을 처리할 수 있도록 도와주며, 이를 통해 컴포넌트의 재사용성과 가독성을 향상시킬 수 있음
+
+### Context API에서 사용되는 React Hook(훅)
+- createContext
+    - React Hook으로서, 인자로 받은 Context 객체의 현재 값을 반환
+- useContext
+    - useContext를 사용하면 함수형 컴포넌트 내에서 Context를 쉽게 사용 가능
+    - useContext는 해당 Context의 현재 값을 반환
+    - useContext Hook을 사용하면 Context Consumer을 작성하지 않고도 Context를 구독 가능
+    - useContext 인자는 React.createContext에 의해 반환된 Context 객체여야 함
+    - 컴포넌트가 렌더링 될 때마다 최신의 Context value를 읽음
+- useReducer
+    - 복잡한 컴포넌트 상태를 관리하는 데 도움이 되는 React Hook
+    - useState와 유사하나, 복잡한 상태 로직을 처리하거나, 다음 상태를 이전 상태와 action에 기반하여 계산할 때 주로 사용
+    - React Hook으로서, 인자로 받은 Context 객체의 현재 값을 반환
+- 함수형 컴포넌트
+    - useReducer는 상태와 디스패치 함수를 반환
+    - 상태는 현재 컴포넌트의 상태를 나타내며, 디스패치 함수는 새로운 action을 reducer에 전달하여 상태를 업데이트하는 데 사용
+    - useReducer의 첫 번째 인자는 리듀서 함수이며, 두 번째 인자는 초기 상태
+    - 리듀서 함수는 (state, action) => newState 형태로 사용
+    - useReducer는 복잡한 상태 전환 로직을 만들거나, 다음 상태를 이전 상태에 기반하여 계산할 때 사용
+
+### React.js 컨텍스트 API 예제
+- 예제 설명
+    - TodoContext를 생성하고, TodoProvider 컴포넌트들 사용하여 애플리케이션의 상태와 액션 함수를 제공
+    - TodoList 컴포넌트에서는 useContext를 사용하여 상태와 액션 함수를 가져와 투두 리스트를 표시하고 삭제 기능을 구현
+    - TodoForm 컴포넌트에서는 useContext를 사용하여 상태와 액션 함수를 가져와 새로운 Todo를 추가하는 기능을 구현
+    - App 컴포넌트에서는 TodoProvider로 감싸고, TodoList와 TodoForm을 렌더링
+``` js
+import React, { createContext, useContext, useReducer } from 'react';
+
+// 초기 상태
+const initialState = {
+    todos: [],
+};
+
+// 액션 타입 정의
+const ADD_TODO = 'ADD_TODO';
+const DELETE_TODO = 'DELETE_TODO';
+
+// 리듀서 함수
+const reducer = (state, action) => {
+    switch (action.type) {
+        case ADD_TODO :
+            return {
+                ...state,
+                todos: [...state.todos, action.payload],
+            };
+        case DELETE_TODO :
+            return {
+                ...state,
+                todos: state.todos.filter((todo) => todo.id !== action.payload),
+            };
+        default :
+            return state;
+    }
+};
+
+// 컨텍스트 생성
+const TodoContext = createContext();
+
+// 프로바이더 컴포넌트
+const TodoProvider = ({ children }) => {
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    const addTodo = (todo) => {
+        dispatch({ type: ADD_TODO, payload: todo });
+    };
+
+    const deleteTodo = (id) => {
+        dispatch({ type: DELETE_TODO, payload: id });
+    };
+
+    return (
+        <TodoContext.Provider value=({ state, addTodo, deleteTodo })>
+            {children}
+        </TodoContext.Provider>
+    );
+};
+
+const TodoForm = () => {
+    const { addTodo } = useContext(TodoContext);
+    const {text, setText} = React.useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const newTodo = { id: Date.now(), text };
+        addTodo(newTodo);
+        setText('');
+    };
+
+    return (
+        <div>
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                />
+                <button type="submit">추가</button>
+            </form>
+        </div>
+    );
+};
+
+// 하위 컴포넌트
+const TodoList = () => {
+    const { state, deleteTodo } = useContext(TodoContext);
+
+    return (
+        <div>
+            <ul>
+                {state.todos.map((todo) => (
+                    <li key={todo.id}>
+                        {todo.text}
+                        <button onClick={() => deleteTodo(todo.id)}>
+                        삭제
+                        </button>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+};
+
+// 최상위 컴포넌트
+const App = () => {
+    return (
+        <TodoProvider>
+            <h1>Todo List</h1>
+            <TodoList />
+            <TodoForm />
+        </TodoProvider>
+    );
+};
+
+export default App;
+```
+
+
 ---
 
 # 백엔드와 프론트엔드 연결
