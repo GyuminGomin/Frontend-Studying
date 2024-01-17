@@ -8,6 +8,7 @@
 <a href="#reactjs_상태_관리_state-props">React.js 상태 관리 (state,props)</a>  
 <a href="#reactjs_이벤트_처리_및_폼_관리">React.js 이벤트 처리 및 폼 관리</a>  
 <a href="#reactjs_컨텍스트_api">React.js 컨텍스트 API</a>  
+<a href="#reactjs_라우팅_react_router">React.js 라우팅 (React Router)</a>  
 
 
 
@@ -17,6 +18,12 @@
 접속 후 설치 
 <a href="https://nodejs.org/en"> 노드js 사이트 </a>
 
+# 프로젝트 생성 방법
+create-react {프로젝트 이름}
+
+# 필요한 패키지 설치방법
+프로젝트 경로로 이동 cd {프로젝트 이름}  
+npm install --save {package}
 
 ---
 # 웹_접근성_및_SEO
@@ -842,9 +849,90 @@ const App = () => {
 export default App;
 ```
 
+---
+# Reactjs_라우팅_React_Router
+
+### React.js 라우팅 (React Router)
+- React Router 란?
+    - 웹 앱에서 페이지 전환 기능을 구현하는 데 사용되는 라이브러리
+    - 클라이언트 사이드 라우팅을 제공하여 사용자 경험을 개선하고, 코드 스플리팅을 통해 애플리케이션의 성능을 최적화할 수 있음
+    - React Router를 사용하면 URL에 따라 다양한 뷰를 보여주는 동시에, 브라우저의 뒤로 가기, 앞으로 가기 기능과 URL을 통한 직접 접근이 가능해짐
+    - 동적 경로 설정과 중첩 라우팅 등 다양한 라우팅 기능을 지원
+
+### React Router의 필요성
+- SPA의 특성
+    - React는 기본적으로 Single Page Application (SPA)를 구현하는 데 사용
+    - SPA는 하나의 페이지 내에서 동적으로 컴포넌트를 변경하며 사용자에게 다양한 뷰를 제공 (클라이언트 사이드 렌더링이 되어야 함)
+- SPA의 한계
+    - SPA는 페이지 전환 없이 동적인 뷰를 제공하는 장점이 있지만, 전통적인 방식의 페이지 이동(history.go(-1)같은 것)과 URL을 통한 직접 접근이 어렵다는 단점 존재
+    - SPA의 단점을 극복하기 위해 React Router가 등장
+    - 컴포넌트의 URL에 경로를 연결해주어, 해당 URL로 이동하면 지정된 컴포넌트를 렌더링 함
+
+### React Router 주요 컴포넌트
+<img src="./README_img/reactComponent.png">
+
+- BrowserRouter
+    - 전체 Application을 담당
+    - HTML5의 history API를 사용하여 주소를 관리하며, 이를 통해 UI를 현재 URL에 동기화 가능
+- Routes 컴포넌트
+    - 다수의 Route 컴포넌트를 포함하며, 각 Route는 특정 경로에 따라 렌더링 될 컴포넌트를 결정
+    - 여러 Route 중에서 매칭되는 첫 번째 Route만을 렌더링
+    - 여러 경로가 동시에 매칭되는 상황을 방지
+- Route 컴포넌트
+    - 애플리케이션의 특정 URL에 UI를 렌더링
+    - 각 Route 컴포넌트는 path 속성을 통해 어떤 경로에 대해 반응할 것인지를 정의하고, 그 경로에 도달했을 때 렌더링할 컴포넌트를 결정
+- Link 컴포넌트
+    - 사용자가 다른 경로로 이동할 수 있게 함
+    - 애플리케이션 내에서 새로운 경로로 이동하는 데 사용하는 링크 생성
+    - to 속성을 사용해 이동할 위치 지정
+- Redirect
+    - 주어진 경로로 리다이렉션을 수행
+- useParams, useLocation, useHistory, useRouteMatch
+    - 커스텀 훅으로서, 현재 라우팅 상태에 접근하거나 수정하는 기능을 제공
+- Prompt
+    - 사용자가 현재 위치를 벗어나려고 할 때 경고 메시지를 표시하는 데 사용
+
+### React Router 설치 및 예제
+- React Router 설치
+```
+    > npm install react-router-dom
+```
+- React Router 기본 예제
+``` js
+// App.js
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import Form from "./Form";
+const Home = () => { return (<h2>Home</h2>); }
+const About = () => { return (<h2>About</h2>); }
+const Contact = () => { return (<h2>Contact</h2>); }
+
+function App() {
+    return (
+        <Router>
+            <Routes>
+                <Route exact path="/home" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+            </Routes>
+        </Router>
+    );
+}
+export default App;
+```
 
 ---
+# 2분 04초 React.js 라우팅 실습
 
+
+
+
+
+
+
+---
+---
+---
 # 백엔드와 프론트엔드 연결
 ```
 백엔드 프로그램으로 설정을 완료 한 뒤,
