@@ -9,6 +9,7 @@
 <a href="#reactjs_이벤트_처리_및_폼_관리">React.js 이벤트 처리 및 폼 관리</a>  
 <a href="#reactjs_컨텍스트_api">React.js 컨텍스트 API</a>  
 <a href="#reactjs_라우팅_react_router">React.js 라우팅 (React Router)</a>  
+<a href="#reactjs_비동기_데이터_처리_ajax_axios">React.js 비동기 데이터 처리 (Ajax, axios)</a>  
 
 
 
@@ -922,13 +923,191 @@ export default App;
 ```
 
 ---
-# 2분 04초 React.js 라우팅 실습
+# Reactjs_비동기_데이터_처리_Ajax_axios
 
+### Axios 개요
+- Axios란?
+    - Axios는 node.js와 브라우저를 위한 Promise 기반 HTTP 클라이언트
+    - 주로 비동기 HTTP 요청을 쉽게 처리하기 위해 사용
+    - JavaScript로 작성된 오픈소스 HTTP 클라이언트 라이브러리로, 웹 브라우저와 Node.js 환경에서 사용
+    - 서버 사이드에서는 네이티브 node.js의 http 모듈을 사용
+    - 클라이언트(브라우저)에서는 XMLHttpRequests를 사용
 
+- Axios 특징
+    - 비동기 요청을 처리하기 위해 Promise를 사용
+    - JSON 데이터와 JavaScript 객체로 상호 변환
+    - 요청과 응답을 인터셉트하여 데이터를 수정하거나 오류를 처리하는 등의 작업을 수행할 수 있음
+    - 타임아웃 설정과 함께 다양한 종류의 네트워크 오류를 적절하게 처리할 수 있음
+    - 클라이언트(브라우저)와 서버(Node.js)측 모두에서 사용할 수 있어, 여러 환경에서의 개발에 유연성을 제공
 
+### Ajax vs Axios 공통점
+- 웹 애플리케이션과 서버 간의 통신
+    - Ajax와 Axios는 둘 다 웹 애플리케이션과 서버 간에 데이터를 주고받는 데 사용
+    - 클라이언트와 서버 사이에서 비동기적으로 데이터를 교환하여 웹 페이지를 새로고침하지 않고도 일부 내용을 업데이트 가능
+- 비동기 통신
+    - 웹 애플리케이션의 사용자 경험을 향상시키며, 서버로부터 응답이 오는 동안 사용자가 다른 작업을 계속할 수 있음
+- Promise 기반
+    - Ajax와 Axios는 Promise 기반의 API를 사용하여 비동기 작업을 처리
+    - 이를 통해 개발자들은 비동기 작업의 성공 또는 시패에 따라 콜백 함수를 체인으로 연결할 수 있음
+- HTTP 요청 유형 지원
+    - Ajax와 Axios는 주요 HTTP 요청 유형(GET,POST,PUT,DELETE 등)을 지원
+    - 이를 통해 웹 애플리케이션은 서버와 다양한 방식으로 통신
+- JSON 지원
+    - JSON 데이터 형식을 지원
+    - JSON은 현대 웹 애플리케이션에서 가장 널리 사용되는 데이터 포맷이며, 이를 통해 서버와 클라이언트 간에 쉽게 데이터를 교환할 수 있음
 
+### Ajax vs Axios 차이점
+- 기술 vs 라이브러리
+    - Ajax는 기술의 한 형태로, 여러 웹 표준과 기술을 결합하여 비동기적으로 서버와 데이터를 교환하는 방법
+    - 반면, Axios는 JavaScript 라이브러리로, Ajax 기술을 사용하여 구현된 라이브러리 중 하나
+- 브라우저 지원
+    - Ajax는 XMLHttpRequest 객체를 사용하며, 오래된 브라우저에서도 작동
+    - 반면 Axios는 더 현대적인 API를 사용하며, 일부 오래된 브라우저에서는 작동하지 않을 수 있음
+- 오류 처리
+    - Axios는 더 간결하고 명확한 오류 처리 방식을 제공
+    - Promise 기반 구조를 활용하여 .catch 메서드를 사용할 수 있음. Ajax는 오류 처리가 상대적으로 더 쉬울 수 있음
+- 구성과 확장성
+    - Axios는 요청과 응답을 가로채거나 변환하는 데 사용할 수 있는 더 많은 구성 옵션과 기능을 제공
+    - 이로 인해 복잡한 애플리케이션에서 더 유연하게 사용할 수 있음
+- 자동 변환
+    - Axios는 JSON 데이터를 자동으로 JavaScript 객체로 변환해줌
+    - Ajax는 이를 수동으로 수행해야 할 수도 있음
 
+### Axios 구성
+- Axios 인스턴스
+    - 기본 설정을 사용자 정의하여 여러 요청에 재사용할 수 있는 Axios 개체
+    - 이 인스턴스를 사용하면 특정 프로젝트 또는 요청 유형에 적합한 설정을 쉽게 관리할 수 있음
+    - Axios 인스턴스를 생성하는 것은 전역 Axios 객체와 별도로 작동하며, 각 인스턴스는 독립적인 구성과 동작을 가질 수 있음
+    - 이를 통해 동일한 애플리케이션 내에서 서로 다른 환경과 요구 사항에 대응할 수 있음
+- 요청 Config
+    - 요청 Config는 HTTP 요청을 보낼 때 사용할 수 있는 설정들의 집합
+    - 요청 방법, URL, 헤더, 데이터, 타임아웃 등을 포함할 수 있음
+    - 개발자는 요청 Config 객체를 사용하여 각 HTTP 요청에 대한 세부 설정을 제어 가능
+    - 이를 통해 요청이 어떻게 처리되고 서버로 어떤 정보가 전송되는지에 대한 세밀한 통제가 가능
+- 응답 스키마
+    - 서버로부터 받은 HTTP 응답의 구조
+    - Axios의 응답 객체는 일반적으로 data, status, statusText, headers, config, request 등의 속성을 포함
+    - data 속성은 서버로부터 받은 응답 데이터를 담고 있으며, 다른 속성들은 응답과 관련된 메타데이터를 제공
+    - 개발자는 이 속성들을 활용하여 응답을 처리하는 로직을 구현할 수 있음
+- Config 기본값
+    - Axios의 Config 기본값은 모든 요청에 적용되는 설정의 기본값을 정의
+    - 이는 전역적으로 적용되거나, Axios 인스턴스를 통해 설정
+    - Config 기본값을 사용하면 애플리케이션 전체에서 일관된 요청 동작을 쉽게 관리할 수 있으며, 중복 코드를 줄이고 유지보수를 간소화하는 데 도움이 됨
+- 인터셉터
+    - 인터셉터는 요청이 서버로 보내지기 전이나 응답이 클라이언트로 오기 전에 요청이나 응답을 가로채서 처리하는 기능을 제공
+    - 요청 인터셉터를 사용하면 요청이 전송되기 전에 데이터를 수정하거나 헤더를 추가하는 등의 작업을 수행
+    - 응답 인터셉터를 사용하면 서버로부터의 응답을 처리하기 전에 데이터를 변형하거나 오류를 체크하는 등의 작업을 수행
+- 에러 핸들링
+    - Axios의 에러 핸들링 기능은 HTTP 요청과 응답 과정에서 발생할 수 있는 다양한 유형의 오류를 감지하고 처리하는 데 사용
+    - Promise 기반의 Axios는 .catch() 메서드를 사용하여 오류를 캐치할 수 있음
+    - 또한 응답 인터셉터를 사용하여 오류 응답을 가로채고 커스텀 에러 처리 로직을 적용 가능
+    - 이를 통해 개발자는 네트워크 오류, 서버 오류, 클라이언트 오류 등에 대응하는 로직을 구현할 수 있음
 
+### Axios 사용 예제
+- Axios 인스턴스
+``` js
+// Axios 라이브러리 임포트
+const axios = require('axios');
+// Axios 인스턴스 생성, baseURL을 설정하여, 이 인스턴스를 사용해 요청을 보낼 때 기본 URL이 설정됨.
+const instance = axios.create({
+    baseURL: 'https://api.example.com'
+});
+// 인스턴스를 사용하여 GET 요청 보내기
+instance.get('/endpoint')
+    .then(response => console.log(response.data))
+    .catch(error => console.error(error));
+```
+- 응답 스키마
+``` js
+const axios = require('axios');
+// Axios GET 요청
+axios.get('https://api.example.com/endpoint')
+    .then(response => {
+        // 응답 객체의 여러 속성에 액세스
+        console.log(response.data); // 응답 본문
+        console.log(response.status); // 상태 코드 (e.g. 200)
+        console.log(response.statusText); // 상태 텍스트 (e.g. 'OK')
+        console.log(response.headers); // 응답 헤더
+        console.log(response.config); // 요청에 사용된 설정
+    })
+    .catch(error => console.error(error));
+```
+- config 기본값
+``` js
+const axios = require('axios');
+
+// 기본 설정
+axios.defaults.baseURL = 'https://api.example.com';
+axios.defaults.headers.common['Accpet'] = 'application/json';
+
+// 이후 요청은 위에서 설정한 기본 값 사용
+axios.get('/endpoint')
+    .then(response => console.log(response.data))
+    .catch(error => console.error(error));
+```
+- 요청 Config
+``` js
+const axios = require('axios');
+
+// 요청에 대한 세부 설정을 가진 객체 생성
+const config = {
+    method: 'get',
+    url: 'https://api.example.com/endpoint',
+    headers: { 'Accept': 'application/json' }
+};
+
+// Axios를 사용하여 요청 보내기, config 객체를 인수로 전달
+axios(config)
+    .then(response => console.log(response.data))
+    .catch(error => console.error(error));
+```
+- 인터셉터
+``` js
+const axios = require('axios');
+
+// 요청 인터셉터 추가
+axios.interceptors.request.use(config => {
+    // 요청 헤더에 토큰 추가 예
+    config.headers.Authorization = 'Bearer token';
+    return config;
+});
+
+// 응답 인터셉터 추가
+axios.interceptors.response.use(response => {
+    // 응답 데이터를 로깅하는 예
+    console.log('Response data:', response.data);
+    return response;
+}, error => {
+    // 오류 로깅
+    console.error('Response error:', error);
+    return Promise.reject(error);
+});
+
+// 요청 보내기 (인터셉터 적용됨)
+axios.get('https://api.example.com/endpoint')
+    .catch(error => console.error(error));
+```
+- 에러 핸들링
+``` js
+const axios = require('axios');
+
+// Axios GET 요청
+axios.get('https://api.example.com/endpoint')
+    .then(response => console.log(response.data))
+    .catch(error => {
+        // 에러 핸들링
+        if (error.response) {
+            // 서버가 응답을 반환했으나 2xx 상태 코드가 아닌 경우
+            console.error('Server responded with status code:', error.response.status);
+        } else if (error.request) {
+            // 서벅 응답을 전혀 반환하지 않은 경우
+            console.error('No response received from server.');
+        } else {
+            // 요청 설정 오류 또는 네트워크 오류 등
+            console.error('Error', error.message);
+        }
+    });
+```
 
 ---
 ---
