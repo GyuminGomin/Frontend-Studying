@@ -10,6 +10,7 @@
 <a href="#reactjs_컨텍스트_api">React.js 컨텍스트 API</a>  
 <a href="#reactjs_라우팅_react_router">React.js 라우팅 (React Router)</a>  
 <a href="#reactjs_비동기_데이터_처리_ajax_axios">React.js 비동기 데이터 처리 (Ajax, axios)</a>  
+<a href="#mui_소개_및_기본">MUI 소개 및 기본</a>  
 
 
 
@@ -1108,6 +1109,76 @@ axios.get('https://api.example.com/endpoint')
         }
     });
 ```
+---
+# MUI_소개_및_기본
+### 디자인 프레임워크
+- 디자인 프레임워크 개요
+    - 웹 또는 애플리케이션의 사용자 인터페이스(UI) 디자인을 구축하고 개선하는 데 도움을 주는 도구와 리소스의 집합
+    - 이는 개발자와 디자이너가 일관된 디자인 스타일과 컴포넌트를 사용하여 효율적으로 일관된 UI를 만들 수 있도록 지원
+    - Ant Design for React, Material UI 등등
+
+### 디자인 프레임워크 특징
+- 디자인 가이드 및 표준화
+    - 일반적인 디자인 가이드라인과 UI 요소의 표준화를 제공
+    - 사용자 경험을 향상시키고 일관성 있는 디자인을 구현하는 데 도움
+- 컴포넌트 라이브러리
+    - 일련의 재사용 가능한 UI 컴포넌트를 제공
+    - 이러한 컴포넌트는 사전에 디자인과 상호작용을 고려하여 구축되었으며, 개발자는 이를 활용하여 UI를 구축할 수 있음
+    - ex. 버튼, 입력필드, 메뉴 ...
+- 레이아웃 시스템
+    - 유연한 레이아웃 시스템을 제공하여 컴포넌트를 배치하고 조직하는 데 도움
+    - 원하는 디자인을 쉽게 구현하고 반응형 레이아웃을 구성 가능
+    - 그리드 시스템, 컨테이너, 행 및 열 ...
+- 디자인 툴 및 리소스
+    - 디자이너를 위한 도구와 리소스도 제공
+- 커뮤니티 지원
+
+### MUI 소개
+- MUI란?
+    - Material-UI는 React 컴포넌트 라이브러리로, Google의 Material Design을 기반으로 UI 컴포넌트를 제공
+    - React 생태계에서 가장 인기있는 UI 라이브러리 중 하나이며, React 애플리케이션을 쉽게 구축하고 스타일링할 수 있도록 도와줌
+- MUI 장점
+    - Material Design 기반의 UI 컴포넌트 제공
+    - 반응형 디자인 지원
+    - 커스터마이징 쉬움
+    - 다양한 커뮤니티 및 문서 지원
+
+### 개발 환경 설치
+- Node.js 설치
+    - https://nodejs.org/en/download
+- Create React App 설치
+```
+> npx create-react-app my-app
+```
+- MUI 설치
+```
+> npm install @mui/material @emotion/react @emotion/styled
+```
+- MUI 기본 테마 적용
+    - MUI는 기본적으로 제공하는 테마를 사용
+    - App.js 파일에서 MUI의 ThemeProvider를 사용하여 기본 테마를 적용
+    ``` js
+    import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+    const theme = createTheme();
+
+    function App() {
+        return (
+            <ThemeProvider theme={theme}>
+                <div>My MUI App</div>
+            </ThemeProvider>
+        );
+    }
+
+    export default App;
+    ```
+
+--- 
+# UI_컴포넌트_구성
+
+
+
+
 
 ---
 ---
