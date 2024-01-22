@@ -1403,7 +1403,153 @@ export default function MyTextField() {
 
 - 코드에서 Grid 컴포넌트의 container 속성은 레이아웃을 구성하는 최상위 컴포넌트를 나타냄
 - Grid 컴포넌트 내부에는 Grid item 컴포넌트를 사용하여 각각의 항목을 구성할 수 있음
-- 1분 22초
+``` js
+<Grid container spacing={2}>
+    <Grid item xs={8} md={6}>
+        <Item>xs=8 md=6</Item>
+    </Grid>
+    <Grid item xs={4} md={6}> <!-- 클때 6칸, 작을 때 4칸 --> 
+        <Item>xs=4 md=6</Item>
+    </Grid>
+    <Grid item xs={4} md={6}>
+        <Item>xs=4 md=6</Item>
+    </Grid>
+    <Grid item xs={8} md={6}>
+        <Item>xs=8 md=6</Item>
+    </Grid>
+</Grid>
+```
+
+### Grid 컴포넌트 속성
+- 예제
+    - xs={8}, xs={4}, md={6}는 Grid 컴포넌트의 항목의 크기를 정의하는 방식
+    - xs={8}, xs={4}는 모바일에서는 전체 너비를 차지
+    - md={6}은 데스크탑에서는 반 너비를 차지하도록 설정
+``` js
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: 'green', padding: 15, textAlign: 'center', color: 'white'
+}));
+
+export default function BasicGrid() {
+    return (
+        <Grid container spacing={2}>
+            <Grid item xs={8} md={6}> <Item>xs=8 md=6</Item> </Grid>
+            <Grid item xs={4} md={6}> <Item>xs=4 md=6</Item> </Grid>
+            <Grid item xs={4} md={6}> <Item>xs=4 md=6</Item> </Grid>
+            <Grid item xs={8} md={6}> <Item>xs=8 md=6</Item> </Grid>
+        </Grid>
+    );
+}
+```
+- Item
+    - Grid 컴포넌트의 item 속성은 레이아웃을 구성하는 각각의 항목을 나타냄
+    - Grid 컴포넌트 내부에는 Grid item 컴포넌트를 사용하여 각각의 항목을 구성할 수 있음
+
+### MUI 반응형 디자인
+- Breakpoint
+    - MUI에서는 Breakpoint를 사용하여 반응형 디자인을 구현할 수 있음
+    - Breakpoint는 디바이스의 크기이며, 모바일, 태블릿, 데스크탑 등의 디바이스 크기에 따라 레이아웃을 구성
+``` js
+/*
+    breakPoint 별 디바이스 width 크기 기준 값
+    xs: 0, sm: 600, md: 900, lg: 1200, xl: 1536
+*/
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: 'green', // 600 < screen < 900
+    // screen < 600
+    [theme.breakpoints.down('sm')]: {
+        backgroundColor: red
+    },
+    // 900 < screen
+    [theme.breakpoints.up('md')]: {
+        backgroundColor: blue
+    },
+    // 1200 < screen
+    [theme.breakpoints.up('lg')]: {
+        backgroundColor: yellow
+    },
+}));
+```
+- Breakpoint 2
+``` js
+import * as React from 'react';
+import { Paper, Grid, colors, styled } from '@mui/material;
+/*
+    breakPoint 별 디바이스 width 크기 기준 값
+    xs: 0, sm: 600, md: 900, lg: 1200, xl: 1536
+*/
+const Item = styled(Paper)(({ theme }) => ({
+    textAlign: 'center', padding: 15, color: 'white',
+    backgroundColor: 'green', // 600 < screen < 900
+    // screen < 600
+    [theme.breakpoints.down('sm')]: {
+        backgroundColor: red
+    },
+    // 900 < screen
+    [theme.breakpoints.up('md')]: {
+        backgroundColor: blue
+    },
+    // 1200 < screen
+    [theme.breakpoints.up('lg')]: {
+        backgroundColor: yellow
+    },
+}));
+
+export default function BasicGrid() {
+    return (
+        <Grid container spacing={2}>
+            <Grid item xs={8} md={6}> <Item>xs=8 md=6</Item> </Grid>
+            <Grid item xs={4} md={6}> <Item>xs=4 md=6</Item> </Grid>
+        </Grid>
+    );
+}
+```
+- useMediaQuery Hook
+    - useMediaQuery Hook을 사용하면 Breakpoint에 따라 레이아웃을 구성할 수 있음
+``` js
+export default function BasicGrid() {
+    const theme = useTheme();
+    const lessMd = useMediaQuery(theme.breakpoints.down('lg'));
+    return (
+        <Grid container spacing={2}>
+            <Grid item xs={12} sm={12} md={12} lg={6}>
+                <Item>
+                    {lessMd ? 'Mobile / tablet' : 'Desktop'}
+                </Item>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} lg={6}>
+                <Item>
+                    {lessMd ? 'Mobile / tablet' : 'Desktop'}
+                </Item>
+            </Grid>
+        </Grid>
+    );
+}
+```
+- Hidden 컴포넌트를 사용한 반응형 레이아웃 구성
+    - Hidden 컴포넌트를 사용하면 Breakpoint에 따라 컴포넌트를 숨길 수 있음
+    - 모바일, 태블릿, 테스크탑 등의 디바이스 크기에 따라 컴포넌트를 숨기고, 보이도록 구성할 수 있음
+``` js
+<Grid container spacing={2}>
+    <Grid item xs={12} md={6}>
+        <Item>Content 1</Item>
+    </Grid>
+    <Grid item xs={12} md={6}>
+        <Item>Content 2</Item>
+    </Grid>
+    <Hidden mdUp>
+        <Grid item xs={12}>
+            <Item>Content 3</Item>
+        </Grid>
+    </Hidden>
+</Grid>
+```
+---
+# 
 
 
 ---
