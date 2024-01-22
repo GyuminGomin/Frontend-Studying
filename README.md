@@ -13,6 +13,7 @@
 <a href="#mui_소개_및_기본">MUI 소개 및 기본</a>  
 <a href="#ui_컴포넌트_구성">UI 컴포넌트 구성</a>  
 <a href="#mui를_사용한_레이아웃_및_반응형_디자인">MUI를 사용한 레이아웃 및 반응형 디자인</a>  
+<a href="#mui를_사용한_폼_및_입력_컴포넌트_구성">MUI를 사용한 폼 및 입력 컴포넌트 구성</a>  
 
 
 
@@ -1549,7 +1550,177 @@ export default function BasicGrid() {
 </Grid>
 ```
 ---
-# 
+# MUI를_사용한_폼_및_입력_컴포넌트_구성
+
+### MUI Form, Input 컴포넌트
+- Form, Input 컴포넌트 개요
+    - MUI에서 제공하는 Form, Input 컴포넌트는 HTML Form 엘리먼트를 보완하여 다양한 인터랙션과 디자인적인 요소를 추가한 것
+    - 사용자 입력 데이터를 수집하는 폼의 구성 요소로 사용됨
+
+### MUI Form, Input 컴포넌트 사용
+- TextField
+    - 사용자가 텍스트를 입력할 수 있는 입력 필드를 제공
+    - 사용자가 텍스트를 입력하면 해당 값을 폼 데이터로 전송
+    - TextField 컴포넌트는 일반적으로 사용자의 이름, 이메일, 비밀번호 등과 같은 텍스트 정보를 입력받는 데 주로 사용
+``` js
+<form onSubmit={handleSubmit}>
+    <TextField props.../>
+    <TextField props.../>
+    <Button type="submit" variant="contained" color="primary">
+        Submit
+    </Button>
+</form>
+```
+
+``` js
+import React, { useState } from 'react';
+import { TextField, Button } from '@mui/material';
+
+export default function MyForm() {
+    const [form, setForm] = useState({
+        name: '',
+        email: '',
+        message: '',
+    });
+
+    const handleChange = (e) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(form);
+    };
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <TextField
+                label="Name" name="name" value={form.name}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+            />
+            <TextField
+                label="Email" name="email" value={form.email}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+            />
+            <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+            >
+                Submit
+            </Button>
+        </form>
+    );
+}
+```
+
+- CheckBox
+    - 사용자가 체크박스를 선택 또는 해제할 수 있는 기능을 제공
+    - Checkbox 컴포넌트는 form 데이터의 일부로 포함되어, 사용자가 선택한 옵션을 폼 데이터로 전송
+``` js
+import React, { useState } from 'react';
+import { FormControlLabel, Checkbox, Button } from '@mui/material';
+
+export default function MyForm() {
+    const [form, setForm] = useState({
+        agree: false
+    });
+
+    const handleChange = (e) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.checked,
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(form);
+    };
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <FormControlLabel
+                label="I agree to the terms and conditions"
+                control={
+                    <Checkbox
+                        checked={form.agree}
+                        onChange={handleChange}
+                        name="agree"
+                        color="primary"
+                    />
+                }
+            />
+            <Button type="submit" variant="contained" color="primary">
+                Submit
+            </Button>
+        </form>
+    );
+}
+```
+<img src="./README_img/checkBox컴포넌트.png" />
+
+- Radio
+    - 여러 개의 옵션 중 하나를 선택할 수 있는 라디오 버튼 제공
+    - Radio 컴포넌트는 사용자가 여러 옵션 중 하나마 선택할 수 있도록 하며, 선택한 값은 폼 데이터로 전송
+    - 라디오 버튼은 단일 선택을 요구하는 상황에 적합하며, 예를 들어 성별 선택, 결제 방법 선택 등에 주로 사용
+``` js
+import React, { useState } from 'react';
+import { FormControlLabel, RadioGroup, Radio, Button } from '@mui/material';
+
+export default  function MyForm() {
+    const [form, setForm] = useState(
+        { gender: 'male'}
+    );
+
+    const handleChange = (e) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.checked,
+        });
+    };
+    const handleSubmit = (e) => {
+        e.priventDefault();
+        console.log(form);
+    };
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <RadioGroup
+                row
+                name="gender" value={form.gender}
+                onChange={handleChange}
+            >
+                <FormControlLabel
+                    value="male" label="Male" control={ <Radio color="primary"/>}
+                />
+                <FormControlLabel
+                    value="female" label="Female" control={ <Radio color="primary"/>}
+                />
+            </RidioGroup>
+            <Button type="submit" variant="contained" color="primary">
+                submit
+            </Button>
+        </form>
+    );
+}
+```
+<img src="./README_img/RadioButton컴포넌트.png" />
+
+- Select
+    - 사용자가 주어진 옵션 중 하나를 선택할 수 있는 드롭다운 목록을 제공
+    - Select 컴포넌트는 사용자가 옵션을 선택하면 선택한 값이 폼 데이터로 전송
+    - 다양한 선택지 중 하나를 고르는 상황에 사용되며, 국가 선택, 카테고리 선택 등의 기능을 구현할 때
+- 17분 45초
+
+
 
 
 ---
