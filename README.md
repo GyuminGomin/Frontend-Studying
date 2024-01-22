@@ -11,6 +11,7 @@
 <a href="#reactjs_라우팅_react_router">React.js 라우팅 (React Router)</a>  
 <a href="#reactjs_비동기_데이터_처리_ajax_axios">React.js 비동기 데이터 처리 (Ajax, axios)</a>  
 <a href="#mui_소개_및_기본">MUI 소개 및 기본</a>  
+<a href="#ui_컴포넌트_구성">UI 컴포넌트 구성</a>  
 
 
 
@@ -1176,8 +1177,225 @@ axios.get('https://api.example.com/endpoint')
 --- 
 # UI_컴포넌트_구성
 
+### 기본 UI 컴포넌트
+- Button
+    - Button 컴포넌트는 variant와 color 속성을 사용하여 버튼의 모양과 색상을 지정
+``` js
+import * as React from 'react';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
+export default function BasicButtons() {
+    return (
+        <Stack spacing={2} direction="row">
+            <Button variant="text">Text</Button>
+            <Button variant="contained">Contained</Button>
+            <Button variant="outlined">Outlined</Button>
+        </Stack>
+    );
+}
+```
+<img src="./README_img/button.png" />
 
+- Checkbox
+    - Checkbox 컴포넌트는 checked와 onChange 속성을 사용하여 체크 여부와 체크 이벤트를 처리
+``` js
+import * as React from 'react';
+import Checkbox from '@mui/material/Checkbox';
+
+export default function ControlledCheckbox() {
+    const [checked, setChecked] = React.useState(true);
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setChecked(event.target.checked);
+    };
+    const label = { 'aria-label': 'controlled' }
+    return (
+        <div>
+            <Checkbox {...label} checked={checked} onChange={handleChange} defaultChecked/>
+            <Checkbox {...label} checked={checked} onChange={handleChange} disabled/>
+            <Checkbox {...label} checked={checked} onChange={handleChange} color="success"/>
+        </div>
+    );
+}
+```
+<img src="./README_img/checkbox.png" />
+
+- TextField
+    - TextField 컴포넌트는 label, variant, value, onChange 속성을 사용하여 입력 필드의 레이블, 모양, 값을 가져오고 입력 이벤트를 처리
+``` js
+import * as React from 'react';
+import TextField from '@mui/material/TextField';
+
+export default function MyTextField() {
+    const [value, setValue] = React.useState('');
+    const handleChange = (event) => {
+        setValue(event.target.value);
+    };
+    return (
+        <TextField label="Name" variant="outlined" value={value} onChange={handleChange} />
+    );
+}
+```
+<img src="./README_img/TextField.png" />
+
+- Select
+    - Select 컴포넌트는 value, onChange, displayEmpty 속성을 사용해 선택한 값, 선택 이벤트, 빈 옵션 표시 여부를 표시
+``` js
+import * as React from 'react';
+import { Select, MenuItem } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material/Select';
+
+export default function BasicSelect() {
+    const [value, setValue] = React.useState('');
+    const handleChange = (event: SelectChangeEvent) => {
+        setValue(event.target.value as String);
+    };
+    return (
+        <Select value={value} onChange={handleChange} displayEmpty>
+            <MenuItem value="" disabled>Select Option</MenuItem>
+            <MenuItem value="{1}" >Option 1</MenuItem>
+            <MenuItem value="{2}" >Option 2</MenuItem>
+            <MenuItem value="{3}" >Option 3</MenuItem>
+        </Select>
+    );
+}
+```
+<img src="./README_img/Select.png" />
+
+- Radio
+    - RadioGroup 컴포넌트의 value 속성은 현재 선택된 라디오 버튼의 값 저장
+    - onChange 속성은 라디오 버튼이 선택될 때마다 이벤트를 처리
+    - FormControlLabel 컴포넌트는 라디오 버튼과 라벨을 함께 렌더링
+    - Radio 컴포넌트는 단일 선택을 위한 라디오 버튼을 나타내며, RadioGroup과 함께 사용하여 그룹화된 라디오 버튼을 만들 수 있음
+``` js
+import * as React from 'react';
+import { Radio, RadioGroup, FormControlLabel} from '@mui/material/FormControlLabel';
+
+export default function RadioButtonsGroup() {
+    const [value, setValue] = React.useState('');
+    const handleChange = (event) => { setValue(event.target.value); };
+    return (
+        <RadioGroup value={value} onChange={handleChange}>
+            <FormControlLabel value="1" control={<Radio />} label="Option 1" />
+            <FormControlLabel value="2" control={<Radio />} label="Option 2" />
+            <FormControlLabel value="3" control={<Radio />} label="Option 3" />
+        </RadioGroup>
+    );
+}
+```
+<img src="./README_img/RadioButton.png" />
+
+- Switch
+    - Switch 컴포넌트는 checked와 onChange 속성을 사용하여 스위치의 상태와 이벤트를 처리
+``` js
+import * as React from 'react';
+import Switch from '@mui/material/Switch';
+
+export default function BasicSwitches() {
+    const [ checked, setChecked ] = React.useState(false);
+    const handleChange = (event) => {
+        setChecked(event.target.checked);
+    };
+    return (
+        <div>
+            <Switch checked={checked} onChange={handleChange} />
+            <Switch checked={checked} onChange={handleChange} disabled/>
+        </div>
+    );
+}
+```
+<img src="./README_img/Switch.png" />
+
+### MUI 컴포넌트 스타일 적용
+- MUI의 sx 속성 활용
+    - Button 컴포넌트의 sx 속성을 사용하여 CSS 스타일을 직접 적용 가능
+    - &:hover와 같은 가상 클래스를 사용하여 hover 상태의 스타일을 변경할 수도 있음
+``` js
+import * as React from 'react';
+import { Button } from '@mui/material';
+
+export default function MyButtons() {
+    return (
+        <Button variant="contained" sx={{
+            backgroundColor: 'blue',
+            color: 'white',
+            '&:hover': { backgroundColor: 'navy' },
+        }}>
+        Click Me!
+        </Button>
+    );
+}
+```
+<img src="./README_img/buttonSX.png" />
+
+- Styled-components를 사용한 컴포넌트 스타일링
+    - styled(TextField)를 사용하여 TextField 컴포넌트를 StyledTextField라는 새로운 컴포넌트로 감싸고, width등과 같은 CSS 스타일을 적용
+    - MuiOutlinedInput-root와 같은 클래스를 사용하여 MUI의 기본 스타일을 수정 가능 (UI에서 Focus 시 borderColor 색상 변경)
+``` js
+import * as React from 'react';
+import { TextField } from '@mui/material';
+import styled from '@emotion/styled;
+
+export default function MyTestField() {
+    const StyledTextField = styled(TextField) ({
+        width: 250,
+        '& .MuiOutlinedInput-root': { '&.Mui-focused fieldset': {borderColor: '#6F7E8C'}}
+    });
+    return (
+        <div>
+            <TextField label="name" sx={{marginRight: '5px'}} />
+            <StyledTextField label="Name" />
+        </div>
+    );
+}
+```
+<img src="./README_img/StyledTextField.png" />
+
+### MUI 컴포넌트 이벤트 핸들링
+- onClick 이벤트 핸들링
+    - Switch 컴포넌트는 checked와 onChange 속성을 사용하여 스위치의 상태와 이벤트를 처리
+``` js
+import { Button } from '@mui/material';
+
+export default function MyButtons() {
+    const handleClick = () => {
+        // 버튼 클릭시 Button clicked 메시지가 표시 됩니다.
+        console.log('Button clicked');
+    };
+    return (
+        <Button variant="contained" color="error" onClick={handleClick}>
+            Click Me!
+        </Button>
+    );
+}
+```
+<img src="./README_img/ButtonOnClick.png" />
+
+- onChange 이벤트 핸들링
+    - TextField 컴포넌트의 onChange 속성을 사용하여 입력 필드의 값을 변경할 때마다 이벤트를 처리
+    - 코드에서는 입력 값이 변경될 때마다 콘솔에 값을 출력
+``` js
+import * as React from 'react';
+import { TextField } from '@mui/material';
+
+export default function MyTextField() {
+    const [value, setValue] = React.useState('');
+
+    const handleChange = (event) => {
+        setValue(event.target.value);
+        console.log('Input value: ${event.target.value}');
+    };
+
+    return (
+        <TextField label="Name" variant="outlined" value={value} onChange={handleChange} />
+    );
+}
+```
+<img src="./README_img/MUIOnChange.png" />
+
+---
+
+# 
 
 
 ---
