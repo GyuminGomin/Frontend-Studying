@@ -3,17 +3,17 @@ import Button from '@mui/material/Button';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 const ButtonExample = () => {
-    const [compProps, setCompProps] = useState({
-        color: 'primary',
+    const [compProps, setCompProps] = useState({ // 컴포넌트 상태값 저장
+        color: 'primary', // 기본값
         variant: 'contained',
         size: 'medium'
     });
 
-    const [showExample, setShowExample] = useState(false);
+    const [showExample, setShowExample] = useState(false); // 처음엔 안보여줄 것
 
-    const handlePropChange = (event) => {
+    const handlePropChange = (event) => { // 이벤트를 받아서 set할것
         setCompProps((prevProps) => ({
-            ...prevProps,
+            ...prevProps, // 기존에 가지고 있는 props
             [event.target.name]: event.target.value,
         }));
     };
@@ -35,7 +35,7 @@ const ButtonExample = () => {
                 <Select
                     labelId='color-label'
                     id ='color-select'
-                    value={ compProps.color }
+                    value={ compProps.color } // 기본값
                     name='color'
                     label='Color'
                     size='small'

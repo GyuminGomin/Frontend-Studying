@@ -12,6 +12,7 @@
 <a href="#reactjs_비동기_데이터_처리_ajax_axios">React.js 비동기 데이터 처리 (Ajax, axios)</a>  
 <a href="#mui_소개_및_기본">MUI 소개 및 기본</a>  
 <a href="#ui_컴포넌트_구성">UI 컴포넌트 구성</a>  
+<a href="#mui를_사용한_레이아웃_및_반응형_디자인">MUI를 사용한 레이아웃 및 반응형 디자인</a>  
 
 
 
@@ -1395,7 +1396,14 @@ export default function MyTextField() {
 
 ---
 
-# 
+# MUI를_사용한_레이아웃_및_반응형_디자인
+
+### Grid 컴포넌트 소개
+`MUI에서는 Grid컴포넌트를 사용하여 레이아웃을 구성할 수 있음 Grid 컴포넌트는 Flexbox를 기반으로 하며, 레이아웃을 구성할 때 유용한 여러 가지 속성을 제공`  
+
+- 코드에서 Grid 컴포넌트의 container 속성은 레이아웃을 구성하는 최상위 컴포넌트를 나타냄
+- Grid 컴포넌트 내부에는 Grid item 컴포넌트를 사용하여 각각의 항목을 구성할 수 있음
+- 1분 22초
 
 
 ---

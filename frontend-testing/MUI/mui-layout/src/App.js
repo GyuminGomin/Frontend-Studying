@@ -1,9 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
 import ButtonExample from './ButtonExample';
 import SwitchExample from './SwitchExample';
 import RadioExample from './RadioExample';
 import TextFieldExample from './TextFieldExample';
+import CheckboxExample from './CheckboxExample';
 import { Container, Grid } from '@mui/material';
 
 function App() {
@@ -22,6 +22,9 @@ function App() {
           </Grid>
           <Grid item xs={12}>
             <TextFieldExample/>
+          </Grid>
+          <Grid item xs={12}>
+            <CheckboxExample/>
           </Grid>
         </Grid>
       </Container>
