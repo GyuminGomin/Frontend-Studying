@@ -14,6 +14,7 @@
 <a href="#ui_컴포넌트_구성">UI 컴포넌트 구성</a>  
 <a href="#mui를_사용한_레이아웃_및_반응형_디자인">MUI를 사용한 레이아웃 및 반응형 디자인</a>  
 <a href="#mui를_사용한_폼_및_입력_컴포넌트_구성">MUI를 사용한 폼 및 입력 컴포넌트 구성</a>  
+<a href="#mui를_사용한_데이터_표시_컴포넌트_구성">MUI를 사용한 데이터 표시 컴포넌트 구성</a>  
 
 
 
@@ -1718,9 +1719,435 @@ export default  function MyForm() {
     - 사용자가 주어진 옵션 중 하나를 선택할 수 있는 드롭다운 목록을 제공
     - Select 컴포넌트는 사용자가 옵션을 선택하면 선택한 값이 폼 데이터로 전송
     - 다양한 선택지 중 하나를 고르는 상황에 사용되며, 국가 선택, 카테고리 선택 등의 기능을 구현할 때
-- 17분 45초
+``` js
+import React, { useState }  from 'react';
+import { FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
 
+export default function MyForm() {
+    const [form, setForm] = useState(
+        { country : '' }
+    );
 
+    const handleChange = (e) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(form);
+    }
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <FormControl sx={{ marginBottom: 1}} fullWidth>
+                <InputLabel id="contry-label">나라를 고르세요.</InputLabel>
+                <Select
+                    labelId="contry-label"
+                    id="contry-select"
+                    name="contry"
+                    value={form.country}
+                    onChange={handleChange}
+                >
+                    <MenuItem value="korea">한국</MenuItem>
+                    <MenuItem value="usa">미국</MenuItem>
+                    <MenuItem value="canada">캐나다</MenuItem>
+                </Select>
+            </FormControl>
+            <Button type="submit" variant="contained">
+                Submit
+            </Button>
+        </form>
+    );
+}
+```
+
+### Form 유효성 검사
+`Form 유효성 검사는 사용자가 입력한 데이터가 기대한 형식과 규칙에 맞는지 확인하는 과정`  
+- 유효성 검사 필요
+    - 사용자가 제출한 데이터의 유효성을 검사하여 오류를 방지하고, 올바른 데이터 처리를 보장
+    - 데이터의 형식, 필수 입력, 길이 제한 등을 확인
+- 유효성 검사 도구
+    - JavaScript 라이브러리나 프레임워크를 활용하여 유효성 검사를 수행할 수 있음
+    - 대표적인 유효성 검사 라이브러리로는 Yup, Joi, Validator.js 등이 있음
+- 유효성 검사 구현
+    - 폼 필드에 대한 유효성 검사 규칙을 정의함
+    - 예를 들어, 필수 입력, 형식(이메일, 숫자 등), 길이 제한 등의 검사를 설정
+- 유효성 검사 필요
+    - 유효성 검사 결과에 따라 에러 메시지를 표시하거나, 특정 동작을 수행함
+    - 사용자에게 오류를 알리고, 올바른 데이터 입력을 유도
+    - 클라이언트 측에서 유효성 검사를 수행하면 사용자 경험을 향상시킬 수 있음
+    - 그러나 클라이언트 측 유효성 검사는 보조적인 역할이며, 서버 측에서도 반드시 검사를 수행해야 함
+    - 클라이언트 측 유효성 검사는 보안상의 이유로 우회될 수 있으므로, 서버 측에서 재확인이 필요함
+
+### Form 유효성 검사 기능 구현
+- Yup의 기능과 특징
+    - Yup은 체이닝 방식을 사용해 다양한 유효성 검사 규칙을 정의할 수 있음
+    - string(), number(), boolean()등 다양한 유형에 대한 검사를 지원
+    - .required(), .min(), .max(), .email()등 다양한 메서드를 사용하여 검사 규칙을 설정할 수 있음
+    - Yup은 유효성 검사 규칙을 체인으로 연결하므로 간결하고 가독성이 좋은 코드를 작성할 수 있음
+- Yup의 기능사용 예시
+    - Yup을 사용하여 이메일 유효성을 검사하는 예시
+``` js
+import * as Yup from 'yup';
+
+const validationSchema = Yup.object().shape({
+    email: Yup.string()
+        .email('유효한 이메이 형식이 아닙니다.')
+        .required('이메일은 필수 입력 항목입니다.'),
+});
+    - 위의 예시에서는 email 필드가 유효한 이메일 형식과 필수 입력 여부 검사
+    - 필요한 경우 다양한 유효성 검사 규칙 추가 가능
+```
+
+- Yup 라이브러리 설치
+```
+> npm install yup
+```
+
+- Yup으로 스키마 검증
+    - Yup으로 폼 유효성 검증을 구현하려면, 우선 Yup에서 제공하는 object 메소드를 사용해 검증할 객체의 스키마를 정의해야 함
+``` js
+import * as Yup from 'yup';
+
+const schema = Yup.object().shape({
+    name: Yup.string().required('이름을 입력하세요'),
+    email: Yup.string()
+        .email('이메일 형식이 올바르지 않습니다.')
+        .required('이메일을 입력하세요'),
+    password: Yup.string()
+        .min(6, '비밀번호는 최소 6자리 이상이어야 합니다.')
+        .required('비밀번호를 입력하세요'),
+});
+
+import { useFormik } from 'formik';
+
+const formik = useFormik({
+    initialValues: {
+        name: '',
+        email: '',
+        password: '',
+    },
+    validationSchema: schema, // 스키마 검증
+    onSubmit: (values) => {
+        console.log(values);
+    },
+});
+```
+- Yup으로 스키마 에러메시지 출력하기
+    - 스키마 검증을 수행하면, 에러 객체를 반환
+    - 따라서 이 에러 객체를 활용해 여러 메시지를 출력할 수 있음
+    - 이때, Formik 라이브러리에서 제공하는 touched 속성을 사용
+    - 해당 필드에 포커스가 들어가지 않은 경우 에러 메시지를 출력하지 않도록 구현할 수 있음
+``` js
+<TextField
+    name="name"
+    label="이름"
+    value={formik.values.name}
+    onChange={formik.handleChange}
+    fullWidth
+    margin="normal"
+    error={formik.touched.name && Boolean(formik.errors.name)} // 에러 메시지 출력 여부
+    helperText={formik.touched.name && formik.errors.name} // 에러 메시지
+>
+```
+---
+
+# MUI를_사용한_데이터_표시_컴포넌트_구성
+
+### 데이터 표시 컴포넌트 개요
+`MUI(Core)는 데이터 표시 컴포넌트를 제공하여 데이터를 시각적으로 표현하고 효과적으로 표시할 수 있도록 도와줌`  
+- 데이터 표시의 필요성
+    - 데이터를 사용자에게 효과적으로 전달하기 위해서는 적절한 방식으로 데이터를 시각화하고 표시해야 함
+    - 데이터 표시 컴포넌트는 사용자에게 데이터를 이해하기 쉽게 표현하고, 시각적인 요소를 추가하여 더 나은 사용자 경험을 제공함
+- MUI의 데이터 표시 컴포넌트
+    - MUI(Core)는 다양한 데이터 표시 컴포넌트를 제공
+    - 예를 들어, Table, Grid, List, Card 등 다양한 형태의 컴포넌트를 활용할 수 있음
+    - 이러한 컴포넌트들은 데이터를 테이블 형태로 표시하거나 그리드로 정렬하거나, 목록 형태로 표시하거나, 카드로 나열하여 데이터를 시각화함
+- 데이터 표시 컴포넌트의 다양한 기능
+    - MUI의 데이터 표시컴포넌트는 다양한 기능을 제공
+    - 예를 들어, 정렬, 필터링, 페이징 등의 기능을 통해 사용자가 데이터를 관리하고 조작할 수 있도록 함
+    - 또한, MUI는 커스터마이징 가능한 스타일과 테마를 제공하여 데이터 표시 컴포넌트를 프로젝트에 맞게 조정할 수 있음
+- 데이터 시각화
+    - MUI는 데이터를 시각적으로 표현하는 다양한 차트 컴포넌트도 제공
+    - 막대 그래프, 선 그래프, 원 그래프 등을 활용하여 데이터를 시각화하고 인사이트를 도출할 수 있음
+- 사용자 경험 개선
+    - MUI의 데이터 표시 컴포넌트는 사용자 경험을 개선하기 위해 다양한 기능을 제공
+    - 예를 들어, 반응형 디자인을 지원하여 다양한 화면 크기에 대응하거나, 애니메이션 효과를 적용하여 데이터의 시각적 표현을 더욱 생동감 있게 만들 수 있음
+
+### Table 컴포넌트
+- Table 기본 구성 요소
+    - MUI의 Table 컴포넌트는 테이블을 구성하는 기본적인 구성 요소들을 제공함
+    - 테이블을 구성하는데 필요한 구성 요소들은 다음과 같음
+```
+구성요소        |       설명
+<Table>         | 테이블 컴포넌트의 루트 요소로 사용, 테이블 감싸는 역할
+<TableHead>     | 테이블 헤더(열 제목)
+<TableBody>     | 테이블 본문(데이터)
+<TableRow>      | 테이블 각 행
+<TableCell>     | 테이블의 셀(열)
+<TableFooter>   | 테이블의 바닥글(하단영역)
+```
+
+- Table 기본 구성 예제
+``` js
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+
+function MyTable() {
+    return (
+        <TableContainer component={Paper}>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell> Header 1 </TableCell>
+                        <TableCell align="right"> Header 2 </TableCell>
+                        <TableCell align="right"> Header 3 </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    <TableRow>
+                        <TableCell>Content 1 </TableCell>
+                        <TableCell align="right"> Content 2 </TableCell>
+                        <TableCell align="right"> Content 3 </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>Content 4 </TableCell>
+                        <TableCell align="right"> Content 5 </TableCell>
+                        <TableCell align="right"> Content 6 </TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </TableContainer>
+    );
+}
+    - 위 코드에서는 Table 컴포넌트를 사용하여 테이블을 구성하고, TableHead와 TableBody 컴포넌트를 사용하여 각각의 영역을 구분
+    - TableRow와 TableCell 컴포넌트를 사용하여 각각의 행과 열을 구성하며, Paper 컴포넌트를 사용하여 테이블을 감싸는 박스를 구성
+```
+### 테이블 데이터 바인딩
+`테이블 데이터 바인딩은 MUI(Core)의 Table 컴포넌트를 사용하여 동적으로 데이터를 표시하는 과정`  
+- 데이터 소스 설정
+    - 테이블에 표시할 데이터를 정의하고 데이터 소스로 사용
+    - 데이터 소스는 배열 형태로 구성되며, 각 항목은 테이블의 각 행에 해당함
+    - 예를 들어, 데이터 소스가 사용자 정보의 배열이라면 각 항목은 사용자의 이름, 이메일, 전화번호 등과 같은 정보를 포함할 수 있음
+- 데이터 매핑
+    - 테이블의 각 열은 데이터 소스의 특정 속성과 연결
+    - 데이터 매핑은 테이블의 열과 데이터 소스의 속성을 매핑하여 해당 속성의 값을 표시하는 역할
+    - 예를 들어, 데이터 소스의 각 항목이 사용자 정보를 나타낸다면, 테이블의 각 열은 사용자의 이름, 이메일, 전화번호와 같은 속성과 연결
+- 동적으로 행 생성
+    - 데이터 소스의 항목 수에 따라 테이블의 행을 동적으로 생성
+    - 각 데이터 항목에 대해 <TableRow> 컴포넌트를 사용하여 테이블에 새로운 행을 추가함
+    - 이때, 각 행의 속성과 데이터 소스의 속성을 매핑하여 해당 속성의 값을 <TableCell> 컴포넌트를 사용하여 표시
+- 데이터 표시
+    - 데이터 소스와 매핑된 속성 값들은 <TableCell> 컴포넌트 내에서 표시
+    - 각 <TableCell> 컴포넌트는 해당 속성 값이 위치한 셀을 나타내며, 테이블의 각 열과 행에 배치됨
+    - 데이터 소스의 각 항목에 따라 테이블에 동적으로 생성된 행과 열에 데이터가 표시되어 사용자에게 보임
+- 페이징 및 정렬
+    - 테이블에 많은 양의 데이터가 있는 경우, 페이징 및 정렬 기능을 사용하여 사용자가 데이터를 관리하고 탐색할 수 있도록 함
+    - MUI(Core)는 <TablePagination> 컴포넌트를 제공하여 페이징 기능을 구현할 수 있으며, <TableHeadCell> 컴포넌트를 사용하여 열의 정렬 기능을 구현할 수 있음
+
+- Table에 데이터 바인딩 예제
+``` js
+import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper } from '@mui/material';
+
+const data = [
+    { id: 1, name: 'John', age: 30},
+    { id: 2, name: 'Mary', age: 25},
+    { id: 3, name: 'Peter', age: 40},
+];
+
+export default function MyTable() {
+    return (
+        <TableContainer component={Paper}>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>ID</TableCell>
+                        <TableCell align="right">Name</TableCell>
+                        <TableCell align="right">Age</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {data.map((row) => (
+                        <TableRow key={row.id}>
+                            <TableCell>{row.id}</TableCell>
+                            <TableCell align="right">{row.name}</TableCell>
+                            <TableCell align="right">{row.age}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
+    );
+}
+
+    - map 함수를 사용하여 배열 데이터를 반복항 TableRow와 TableCell 컴포넌트를 구성하고, 각 데이터에 맞게 값을 바인딩
+    - 위 코드에서는 TableHead와 TableBody 컴포넌트를 사용하여 각각의 영역을 구분
+```
+
+### Table Head와 Table Body 구성하기
+`Table Head와 Table Body는 MUI(Core)의 Table 컴포넌트의 구성 요소로 사용되며, 테이블의 헤더(열 제목)와 본문(데이터)을 나타내는 역할`
+- Table Head
+    - Table Head 컴포넌트는 테이블의 헤더 부분을 나타냄
+    - 이는 테이블의 첫 번째 행으로 표시되며, 열 제목을 포함
+    - 테이블의 열 제목은 Table Head 내에서 <TableHeadCell> 컴포넌트를 사용하여 각 열에 대한 제목을 설정
+- Table Body
+    - Table Body 컴포넌트는 테이블의 본문 부분을 나타내며, 이는 테이블의 데이터를 표시하는 영역
+    - 테이블의 각 행은 Table Body 내에서 <TableRow> 컴포넌트를 사용하여 생성하며, 데이터 소스의 각 항목에 대응됨
+- 구성 요소 분리
+    - Table Head와 Table Body는 구성 요소로서 분리되어 있으며, 각각의 역할과 스타일을 독립적으로 설정할 수 있음
+    - 이를 통해 테이블의 헤더와 본문을 별도로 디자인하거나 스타일링할 수 있음
+- 반복된 데이터 표시
+    - Table Body는 데이터 소스의 각 항목에 대한 행을 생성
+    - 이를 위해 배열 메소드인 map()을 사용하여 데이터를 반복적으로 표시할 수 있음
+    - 반복적으로 생성되는 각 행은 Table Body 내에서 <TableRow> 컴포넌트를 사용하여 정의됨
+- 테이블 구성 유연성
+    - Table Head와 Table Body를 별도로 구성함으로써, 테이블의 구조와 디자인을 유연하게 조정
+    - 열 제목의 스타일을 변경하거나 본문의 행에 추가 정보를 포함하는 등 다양한 수정이 가능
+
+- Table Head와 Table Body 구성 예제
+``` js
+import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper} from '@mui/material';
+
+export default function MyTable() {
+    return (
+        <TableContainer component={Paper}>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell> Header 1 </TableCell>
+                        <TableCell align="right"> Header 2 </TableCell>
+                        <TableCell align="right"> Header 3 </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    <TableRow>
+                        <TableCell>Content 1 </TableCell>
+                        <TableCell align="right"> Content 2 </TableCell>
+                        <TableCell align="right"> Content 3 </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>Content 4 </TableCell>
+                        <TableCell align="right"> Content 5 </TableCell>
+                        <TableCell align="right"> Content 6 </TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </TableContainer>
+    )
+}
+```
+
+### Pagination 컴포넌트
+`MUI(Core)에서 제공하는 컴포넌트로, 데이터의 페이징 기능을 구현할 때 사용`  
+- 페이지 기능
+    - Pagination 컴포넌트는 데이터를 여러 페이지로 나누어 표시할 수 있는 페이징 기능을 제공
+    - 사용자는 페이지 번호를 선택하여 원하는 페이지로 이동 가능
+- 데이터 매핑
+    - Pagination 컴포넌트는 페이지당 표시할 항목 수를 조정할 수 있음
+    - 이를 통해 사용자가 한 페이지에 표시되는 항목 수를 조정할 수 있음
+- 이전 및 다음 페이지
+    - Pagination 컴포넌트는 이전 페이지와 다음 페이지로 이동할 수 있는 버튼을 제공
+    - 사용자는 이 버튼을 클릭하여 이전 페이지나 다음 페이지로 이동할 수 있음
+- 전체 페이지 수
+    - Pagination 컴포넌트는 전체 페이지 수를 계산하여 표시
+    - 이를 통해 사용자는 현재 페이지와 전체 페이지 수를 확인할 수 있음
+- 커스터마이즈 가능
+    - Pagination 컴포넌트는 다양한 속성을 설정하여 외관과 동작을 커스터마이즈 가능
+    - 페이지 번호의 스타일, 이전 및 다음 버튼의 아이콘, 페이지 변경 이벤트 핸들링 등을 조정할 수 있음
+
+- Pagination 예제
+``` js
+import { useState } from 'react'
+import { Pagination } from '@mui/material';
+
+export default function Mypagination() {
+    const [page, setPage] = useState(1);
+    const handleChange = (event, value) => {
+        setPage(value);
+    };
+    return (
+        <Pagination count={10} page={page} onChange={handleChange} />
+    );
+}
+
+    - 위 코드에서는 useState 훅을 사용하여 page 상태를 관리하며, handleChange 함수를 이용하여 페이지 변경 이벤트를 처리
+    - count 속성은 페이지의 총 개수를 지정하고, page 속성은 현재 페이지 번호를 의미
+```
+### Table과 Pagination 활용
+- 활용 방법
+    - useState 훅을 사용하여 현재 페이지를 관리하고, 데이터를 테이블에 표시할 때 페이지네이션을 적용
+    - data 배열이 테이블에 표시할 데이터가 있으며, rowsPerPage 상태는 페이지 당 표시할 행 수를 나타냄
+    - handlePageChange 함수는 페이지 변경 이벤트를 처리하여 현재 페이지를 업데이트 함
+    - indexOfFirstRow와 indexOfLastRow 변수를 사용하여 현재 페이지에 해당하는 데이터를 추출하고 표시
+    - Table 컴포넌트를 사용하여 데이터 테이블을 생성하고 Pagination 컴포넌트를 사용하여 페이지네이션을 표시
+
+- 예제
+``` js
+import React, { useState } from 'react';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import Paper from '@mui/material/Paper';
+import Pagination from '@mui/material/Pagination';
+
+const TableExample = () => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const [rowsPerPage] = useState(5);
+
+    const data = [
+        { id: 1, name: 'John Doe', age: 25},
+        { id: 2, name: 'Jane Smith', age: 30},
+        { id: 3, name: 'Bob Johnson', age: 35},
+        { id: 4, name: 'Alice Williams', age: 28},
+        { id: 5, name: 'Mike Brown', age: 32},
+        { id: 6, name: 'Sarah Davis', age: 29},
+        { id: 7, name: 'Tom Wilson', age: 31},        
+    ];
+
+    const handlePageChange = (event, page) => {
+        setCurrentPage(page);
+    };
+
+    const indexOfLastRow = currentPage * rowsPerPage;
+    const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+    const currentRows = data.slice(indexOfFirstRow, indexOfLastRow);
+    return (
+        <div>
+            <TableContainer component={Paper}>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>ID</TableCell>
+                            <TableCell align="right">Name</TableCell>
+                            <TableCell align="right">Age</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {currentRows.map((row) => (
+                            <TableRow key={row.id}>
+                                <TableCell>{row.id}</TableCell>
+                                <TableCell align="right">{row.name}</TableCell>
+                                <TableCell align="right">{row.age}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <Pagination
+                count={Math.ceil(data.length / rowsPerPage)}
+                page={currentPage}
+                onChange={handlePageChange}
+                sx={{ mt: 2}}
+            />
+        </div>
+    );
+};
+
+export default TableExample;
+```
+
+---
+# MUI 폼 실습 할 차례
 
 
 ---
