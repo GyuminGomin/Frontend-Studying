@@ -13,8 +13,8 @@ const validationSchema = Yup.object({
 const SignUpForm = () => {
     const navigation = useNavigate();
     const [values, setValues] = useState({name: '', email: '', password: ''});
-    const [errors, setError] = useState({});
-    const handleChange = (e) => {
+    const [errors, setError] = useState({}); // 에러 처리
+    const handleChange = (e) => { // value의 값이 변했을 때 호출하는 함수
         const { name, values } = e.target;
         setError({
             ...errors,
@@ -55,7 +55,7 @@ const SignUpForm = () => {
                     marginTop: 8,
                     display: 'flex',
                     felxDirection: 'column',
-                    alignItem: 'center',
+                    alignItems: 'center',
                     padding: 3,
                 }}
             >

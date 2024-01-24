@@ -21,11 +21,12 @@ const DataTable = () => {
         {field: 'id', headerName: 'ID', width:70 },
         {field: 'name', headerName: 'Name', width:130 },
         {field: 'email', headerName: 'Email', width:200 },
-    ]
+    ];
 
     const handlePageChange = (event, page) => {
         setCurrentPage(page);
-    }
+    };
+
     const indexOfLastRow = currentPage * rowPerPage;
     const indexOfFirstRow = indexOfLastRow - rowPerPage;
     const currentRows = data.slice(indexOfFirstRow, indexOfLastRow);
