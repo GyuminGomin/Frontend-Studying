@@ -86,3 +86,25 @@ https://www.jsdelivr.com/package/npm/reset-css?tab=files
 ```
 자동 문법 적용되는것을 emmet이라고 부름
 ```
+
+10. 복합_선택자
+```
+--일치 선택자(Basic Combinator)--
+(구분자가 없음)
+span.orange -> span 태그의 orange 클래스
+.orangespan -> 불가능
+
+--자식 선택자(Child Combinator)--
+ul > .orange (구분자 : >)
+
+--하위(후손) 선택자(Descendant Combinator)--
+div .orange (구분자 : 띄어쓰기)
+
+--인접 형제 선택자(Adjacent Sibling Combinator)--
+선택자 `다음` 형제 요소 `하나`를 선택
+.orange + li (구분자 : +)
+
+--일반 형제 선택자(General Sibling Combinator)--
+선택자 `다음` 형제 요소 `모두`를 선택
+.orange ~ li (구분자 : ~)
+```

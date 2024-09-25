@@ -1,0 +1,30 @@
+.box {
+  width: 100px;
+  height: 100px;
+  background-color: orange;
+  transition: 1s;
+}
+
+/* .box:hover {
+  width: 300px;
+  background-color: royalblue;
+} */
+
+/* .box:active {
+  width: 300px;
+  background-color: royalblue;
+} */
+
+/* 적용안됨 하지만 tabindex="-1" 추가하면 적용됨 */
+.box:focus {
+  width: 300px;
+  background-color: royalblue;
+} 
+
+input {
+
+}
+
+input:focus {
+  background-color: orange;
+}
