@@ -1,3 +1,5 @@
+# 개념
+
 1. 크로스 브라우징
 
 2. 비트맵과 벡터
@@ -87,6 +89,8 @@ https://www.jsdelivr.com/package/npm/reset-css?tab=files
 자동 문법 적용되는것을 emmet이라고 부름
 ```
 
+# CSS
+
 10. 복합_선택자
 ```
 --일치 선택자(Basic Combinator)--
@@ -107,4 +111,38 @@ div .orange (구분자 : 띄어쓰기)
 --일반 형제 선택자(General Sibling Combinator)--
 선택자 `다음` 형제 요소 `모두`를 선택
 .orange ~ li (구분자 : ~)
+```
+
+11. 속성선택자
+``` css
+[disabled] {
+    /*이와 같이 설정 가능*/
+}
+
+[type="password"] {
+    /*type이 password인 것*/
+}
+```
+
+12. 상속되는 CSS 속성들
+```
+모두 글자/문자 관련 속성들!
+(모든 글자/문자 속성은 아님)
+
+font-size : 글자 기울기
+font-weight : 글자 두께
+font-size : 글자 크기
+line-height : 줄 높이
+font-family : 폰트(서체)
+color : 글자 색상
+text-align : 정렬
+```
+
+13. 우선순위란
+```
+같은 요소가 여러 선언의 대상이 된 경우,
+어떤 선언의 CSS 속성을 우선 적용할지 결정하는 방법
+
+1. 점수가 높은 선언이 우선
+2. 점수가 같으면, 가장 마지막에 해석된 선언이 우선함
 ```
