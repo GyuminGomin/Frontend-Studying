@@ -146,3 +146,156 @@ text-align : 정렬
 1. 점수가 높은 선언이 우선
 2. 점수가 같으면, 가장 마지막에 해석된 선언이 우선함
 ```
+
+14. 단위
+```
+px - 픽셀
+% - 상대적 백분율
+em - 요소의 글꼴 크기 (부모요소 font-size)
+rem - 루트 요소(html)의 글꼴 크기
+vw - 뷰포트 가로 너비의 백분율
+vh - 뷰포트 세로 너비의 백분율
+```
+
+15. border 속성 스타일
+```
+none : 선 없음
+solid : 실선(일반선)
+dotted : 점선
+dashed : 파선(---)
+double : 두줄선
+groove : 흠이 파여있는 모양
+ridge : 솟은모양(groove의 반대)
+inset : 요소 전체가 들어간 모양
+outset : 요소 전체가 나온 모양
+```
+
+16. box-sizing
+```
+content-box : default
+border-box : 요소의 내용 + padding + border로 크기 계산
+```
+
+17. overflow
+```
+요소의 크기 이상으로 내용이 넘쳤을 때, 보여짐을 제어하는 단축 속성
+
+visible : 넘친 내용 그대로 보여줌
+hidden : 넘친 내용을 잘라냄
+scroll : 넘친 내용을 잘라냄, 스크롤바 생성
+auto : 넘친 내용이 있는 경우에만 잘라내고 스크롤바 생성
+```
+
+18. display
+```
+요소의 화면 출력(보여짐) 특성
+
+block : 상자(레이아웃) 요소
+inline : 글자 요소
+inline-block : 글자 + 상자 요소
+flex : 플렉스 박스 (1차원 레이아웃)
+grid : 그리드 (2차원 레이아웃)
+none : 보여짐 특성 없음, 화면에서 사라짐
+기타 : table, table-row, table-cell 등...
+```
+
+19. font-style
+```
+normal : 기울기 없음
+italic : 이텔릭체
+oblique : 기울어진 글자
+```
+
+20. position
+```
+요소의 위치 지정 기준
+
+static : 기준 없음
+relative : 요소 자신을 기준
+absolute : 위치 상 부모 요소를 기준
+fixed : 뷰포트(브라우저)를 기준
+sticky : 스크롤 영역 기준
+```
+
+21. 요소의 display가 변경됨
+```
+position 속성의 값으로 absolute, fixed가 지정된 요소는,
+display 속성이 block으로 변경됨
+```
+
+22. flex
+```
+justify-content : 주축을 기준으로 정렬
+
+align-content : 교차 축을 기준으로 여러줄 정렬
+    stretch : flex items를 시작점으로 정렬(늘려서)
+    flex-start : flex items를 시작점으로 정렬
+    flex-end : flex items를 끝점으로 정렬
+    center : flex items를 가운데 정렬
+    space-between : flex items 사이를 균등하게 정렬
+    space-around : flex items의 외부 여백을 균등하게 정렬
+
+align-items : 교차 축의 한 줄 정렬 방법
+    stretch : flex items를 교차 축으로 늘림(늘려서)
+    flex-start
+    flex-end
+    center
+    baseline : flex items를 각 줄의 문자 기준선에 정렬
+```
+
+23. 전환 속성
+- easing functions 검색 : https://easings.net/
+- easing functions mdn 검색 : https://developer.mozilla.org/en-US/docs/Web/CSS/transition-timing-function
+- tweenmax easing : https://gsap.com/docs/v3/Eases/
+```
+transition-property
+- 전환 효과를 사용할 속성 이름을 지정
+    all : 모든 속성에 적용 (default)
+    속성이름 : 전환 효과를 사용할 속성 이름 명시 (ex. transition-property: width)
+
+transition-duration
+- 전환 효과의 지속시간을 지정
+
+                div {
+                width: 100px;
+                height: 100px;
+                background-color: orange;
+                transition: 
+                    width .5s, 
+                    background-color 2s;
+                }
+
+                div:active {
+                width: 300px;
+                background-color: royalblue;
+                }
+
+transition-timing-function
+- 전환 효과의 타이밍(Easing) 함수를 지정
+    ease : 느리게 - 빠르게 - 느리게 = cubic-bezier(0.25, 0.1, 0.25, 1)
+    linear : 일정하게 = cubic-bezier(0, 0, 1, 1)
+    ease-in : 느리게-빠르게 = cubic-bezier(0.42, 0, 1, 1)
+    ease-out : 빠르게-느리게 = cubic-bezier(0, 0, 0.58, 1)
+    ease-in-out : 느리게-빠르게-느리게 : cubic-bezier(0.42, 0, 0.58, 1)
+    cubic-bezier(n, n, n, n) : 자신만의 값을 정의(0~1)
+    steps(n) : n번 분할된 애니메이션
+
+transition-delay
+전환 효과가 몇 초 뒤에 시작할지 대기시간을 지정
+
+                div {
+                width: 100px;
+                height: 100px;
+                background-color: orange;
+                transition: 
+                    width .5s .5s, 
+                    background-color 2s;
+                }
+
+
+                div:active {
+                width: 300px;
+                background-color: royalblue;
+                }
+```
+
