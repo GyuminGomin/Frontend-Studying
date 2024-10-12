@@ -299,3 +299,14 @@ transition-delay
                 }
 ```
 
+# JS
+
+24. 메소드 체이닝(Method Chaining)
+```
+1. split
+2. reverse
+3. join
+
+const a = 'Hello';
+const b = a.split('').reverse().join(''); // 역방향으로 전환
+```
