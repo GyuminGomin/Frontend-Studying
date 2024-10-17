@@ -212,7 +212,7 @@ oblique : 기울어진 글자
 
 static : 기준 없음
 relative : 요소 자신을 기준
-absolute : 위치 상 부모 요소를 기준
+absolute : 위치 상 부모 요소를 기준(부모요소중 position이 있는지 확인하고 없으면 body설정)
 fixed : 뷰포트(브라우저)를 기준
 sticky : 스크롤 영역 기준
 ```
