@@ -5,6 +5,7 @@ body {
   font-weight: 400;
   line-height: 1.4;
   font-family: "Nanum Gothic", sans-serif;
+  height: 3000px;
   /*
     font-weight: 400;
     font-style: normal;
@@ -32,8 +33,11 @@ a {
 
 /* HEADER */
 header {
+  width: 100%;
+  position: fixed;
   background-color: #f6f5f0;
   border-bottom: 1px solid #c8c8c8;
+  top: 0;
 }
 header > .inner {
   height: 120px;
@@ -181,4 +185,48 @@ header .main-menu .item .item__contents .contents__texture h4 {
 header .main-menu .item .item__contents .contents__texture p {
   color: #690;
   margin: 4px 0 14px;
+}
+header .badges {
+  position: absolute;
+  top: 132px;
+  right: 12px;
+}
+header .badges .badge {
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  box-shadow: 4px 4px 10px rgba(0,0,0,.15);
+  cursor: pointer;
+}
+
+/* VISUAL */
+.visual {
+  margin-top: 120px;
+  background-image: url("../images/visual_bg.jpg");
+  background-position: center;
+}
+.visual .inner {
+  height: 646px;
+  background-color: orange;
+}
+.visual .title {
+
+}
+.visual .title .btn {
+
+}
+.visual .cup1.image {
+  
+}
+.visual .cup1.text {
+
+}
+.visual .cup2.image {
+
+}
+.visual .cup2.text {
+
+}
+.visual .spoon {
+
 }
