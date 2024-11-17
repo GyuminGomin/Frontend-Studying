@@ -4,8 +4,6 @@
 루트(제일 상단 폴더)에 favicon.ico가 있으면 자동으로 해석
 
 link rel=icon으로 경로 지정해주면, 사이트 그림 바꿀 수 있음
-
-
 ```
 
 ```
@@ -50,3 +48,4 @@ window.addEventListener('scroll', _.throttle(function () {
   }
 }, 300));
 ```
+
