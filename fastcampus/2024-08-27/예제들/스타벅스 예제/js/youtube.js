@@ -18,7 +18,7 @@ function onYouTubeIframeAPIReady() {
     },
     events: {
       onReady: function(event) {
-        event.target.mute() // 음소거
+        //event.target.mute() // 음소거
       }
     }
     });

@@ -49,3 +49,18 @@ window.addEventListener('scroll', _.throttle(function () {
 }, 300));
 ```
 
+```
+youtube iframe api
+
+- 유튜브 재생해주는 api
+```
+
+```
+scrollMagin cdn
+
+- 순차적으로 실행해주는 라이브러리
+```
+
+```
+html entities
+```
