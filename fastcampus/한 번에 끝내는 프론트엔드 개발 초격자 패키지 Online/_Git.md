@@ -1,3 +1,26 @@
+# Nodejs gitignore 설정
+- node_modules 폴더와 package-lock.json 파일 올릴 필요 없음
+```
+- 이미 추적 중인 node_modules 및 package-lock.json 삭제
+$ git rm -r --cached **/node_modules
+$ git rm -r --cached **/dist
+$ git rm -r --cached **/.cache
+$ git rm --cached **/package-lock.json
+
+
+- .gitignore 설정
+**/node_modules
+**/package-lock.json
+**/dist
+**/.cache
+
+- 깃에서 받고 난 뒤 파일 설정
+# 프로젝트 경로 설정 후
+$ npm install parcel-bundler -D
+$ npm run dev
+  - npm start (간단한 실행 명령이긴 한데, 사용 안하는 걸 권장)
+```
+
 # Git (수업에서 모르는 내용만 정리)
 
 ## 개행문자(Newline) 설정
