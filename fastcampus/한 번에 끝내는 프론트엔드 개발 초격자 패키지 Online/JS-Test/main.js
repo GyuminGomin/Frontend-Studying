@@ -1,17 +1,17 @@
-console.log(typeof "hello world!");
-console.log(typeof 123);
-console.log(typeof true);
-console.log(typeof undefined);
-console.log(typeof null);
-console.log(typeof {});
-console.log(typeof []);
-
-function getType(data) {
-  return Object.prototype.toString.call(data).slice(8, -1);
+function User(first, last) { // 생성자 함수 구분을 위해 Pascal Case로 작성
+  this.firstName = first
+  this.lastName = last
 }
+User.prototype.getFullName = function () {
+  return `${heropy.firstName} ${heropy.lastName}`
+}
+// 생성자 함수
+const heropy = new User('Heropy', 'Park'); // heropy, amy, neo : 인스턴스
+const amy = new User('Amy', 'Clarke');
+const neo = new User('Neo', 'Smith');
 
-console.log(getType(123));
-console.log(getType(undefined));
-console.log(getType(null));
-console.log(getType({}));
-console.log(getType([]));
+console.log(heropy.getFullName());
+console.log(amy);
+console.log(neo);
+
+// const heropy = {} // <- '리터럴 방식'이라 부름 [] 또한
