@@ -203,10 +203,66 @@ User.prototype.getFullName = function () {
 const heropy = new User('Heropy', 'Park'); // heropy, amy, neo : 인스턴스
 const amy = new User('Amy', 'Clarke');
 const neo = new User('Neo', 'Smith');
-
 console.log(heropy.getFullName());
 console.log(amy);
 console.log(neo);
-
 // const heropy = {} // <- '리터럴 방식'이라 부름 [] 또한
+
+// this
+// 일반(Normal) 함수는 호출 위치에서 따라 this 정의!
+// 화살표(Arrow) 함수는 자신이 선언된 함수 범위에서 this 정의!
+/*
+const heropy = {
+  name : 'Heropy',
+  normal: function () {
+    console.log(this.name)
+  },
+  arrow: () => {
+    console.log(this.name)
+  }
+}
+heropy.normal()
+heropy.arrow()
+
+const amy = {
+  name: 'Amy',
+  normal: heropy.normal,
+  arrow: heropy.arrow
+}
+amy.normal()
+amy.arrow()
+*/
+/*
+function User(name) {
+  this.name = name;
+}
+User.prototype.normal = function() {
+  console.log(this.name)
+}
+User.prototype.arrow = () => {
+  console.log(this.name)
+}
+const heropy = new User('Heropy')
+heropy.normal()
+heropy.arrow()
+*/
+// 중요 익명함수를 쓸 경우, 호출위치에 따르므로, setTimeout이라는 함수 자체 내부 로직에서 찾고
+// 화살표함수를 쓸 경우, 선언된 함수 범위 -> timeout이 선언되었으므로, name을 잘 찾음
+var timer = {
+  name: 'Heropy!!',
+  timeout: function() {
+    setTimeout(function () {
+      console.log(this.name)
+    }, 2000)
+  }
+}
+timer = {
+  name: 'Heropy!!',
+  timeout: function() {
+    setTimeout(() => {
+      console.log(this.name)
+    }, 2000)
+  }
+}
+timer.timeout()
 ```
