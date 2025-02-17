@@ -13,5 +13,6 @@ const neo = new User('Neo', 'Smith');
 console.log(heropy.getFullName());
 console.log(amy);
 console.log(neo);
+//
 
 // const heropy = {} // <- '리터럴 방식'이라 부름 [] 또한
