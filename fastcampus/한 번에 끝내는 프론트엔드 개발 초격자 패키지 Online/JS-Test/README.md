@@ -312,3 +312,103 @@ const daughtersCar = new Car('포르쉐', 4, false)
 console.log(myCar)
 console.log(daughtersCar)
 ```
+
+# js method
+``` js
+// mdn 검색하면 prototype 메소드가 다 나옴
+
+/*
+- 인터넷에 아래로 검색
+String mdn
+Math mdn
+Array mdn
+  - forEach
+  - map
+  - filter
+  - find
+  - findIndex
+  - includes
+  - push (원본 수정됨)
+  - unshift (원본 수정됨)
+  - reverse (원본 수정됨)
+  - splice (원본 수정됨)
+*/
+
+/*
+Object mdn
+*/
+
+// 구조 분해 할당 (Destructuring assignment)
+// 비구조화 할당
+const user = {
+  name: 'Heropy',
+  age: 85,
+  email: 'thesecon@gmali.com',
+  address: 'USA'
+}
+const { name: sexual, age, email, address = 'Korea' } = user;
+// E.g, user.address
+console.log(`사용자의 이름은 ${sexual}입니다.`);
+console.log(`${sexual}의 나이는 ${age}세입니다.`);
+console.log(`${sexual}의 이메일 주손느 ${email}입니다.`);
+console.log(address);
+const fruits = ['Apple', 'Banana', 'Cherry']
+const [, b, c, d] = fruits;
+console.log(a, b, c, d);
+
+// 전개 연산자 (Spread)
+const fruits = ['Apple', 'Banana', 'Cherry', 'Orange']
+console.log(fruits);
+console.log(...fruits);
+// console.log('Apple', 'Banana', 'Cherry')
+// ...c : rest parameter
+const toObject = (a, b, ...c) => ({a, b, c}); // a: a -> a
+console.log(toObject(...fruits));
+
+// 데이터 불변성(Immutability)
+// 원시 데이터: String, Number, Boolean, undefined, null
+// 참조형 데이터: Object, Array, Function
+// 참조형 데이터는 불변성이 없고, 원시 데이터는 불변성이 존재해서 따로 메모리 개념까지 생각할 필요 없다.
+let a = {k : 1}
+let b = {k : 1}
+console.log(a, b, a===b)
+a.k = 7
+b = a
+console.log(a, b, a===b)
+a.k = 2
+console.log(a, b, a===b)
+let c = b
+console.log(a, b, c, a===c)
+a.k = 9
+console.log(a, b, c, a===c)
+
+
+```
+
+``` bash
+> 깊은 복사를 테스트 하기 위해
+$ npm i lodash
+```
+
+``` js
+// 얕은 복사(Shallow copy), 깊은 복사(Deep copy)
+import _ from 'lodash'
+const user = {
+  name: 'Heropy',
+  age: 85,
+  emails: ['thesecon@gmail.com']
+}
+// const copyUser = Object.assign({}, user); // 얕은 복사
+// const copyUser = {...user} // 얕은 복사
+const copyUser = _.cloneDeep(user) // 깊은 복사
+console.log(copyUser === user)
+user.age = 22
+console.log('user', user)
+console.log('copyUser', copyUser)
+console.log('-----')
+console.log('-----')
+user.emails.push('neo@zillinks.com') // user 안에 있는 새로운 참조형 데이터인 배열
+console.log(user.emails === copyUser.emails)
+console.log('user', user)
+console.log('copyUser', copyUser)
+```
