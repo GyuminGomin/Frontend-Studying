@@ -62,3 +62,10 @@ package.json, package-lock.json 파일만 있으면
 - package-lock.json
   또 다른 외부 모듈이 들어가 있는 것
 ```
+
+### axios 패키지 라이브러리 설치
+- 설치 후, package.json 에 dependencies 부분 axios 확인
+``` pwsh
+$ npm i axios
+-> 개발자 의존성으로 설치하면 안되기 때문에 그냥 설치
+```
