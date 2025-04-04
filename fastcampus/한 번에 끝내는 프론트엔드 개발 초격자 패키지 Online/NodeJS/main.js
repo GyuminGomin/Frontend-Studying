@@ -6,10 +6,6 @@ The quick brown fox jumps over the lazy dog.
 abbcccdddd
 `;
 
-const regexp = /fox/gi
-console.log(regexp.test(str)) // true
-
-const regexp2 = /HEROPY/gi
-console.log(regexp2.test(str)) // false
-
-console.log(str.replace(regexp, 'AAA')); // replace
+console.log(
+  str.match(/\b\w{2,3}\b/g)
+)
